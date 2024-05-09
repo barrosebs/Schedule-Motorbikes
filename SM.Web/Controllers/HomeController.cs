@@ -4,6 +4,8 @@ using System.Diagnostics;
 
 namespace SW.Web.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -12,17 +14,18 @@ namespace SW.Web.Controllers
         {
             _logger = logger;
         }
-
+        [HttpGet("~/Index")]
         public IActionResult Index()
         {
             return View();
         }
-
+        [HttpGet("~/Privacy")]
         public IActionResult Privacy()
         {
             return View();
         }
 
+        [HttpGet(Name ="Duration")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

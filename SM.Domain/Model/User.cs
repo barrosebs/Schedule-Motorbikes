@@ -10,10 +10,6 @@ namespace SM.Domain.Models
         public string FullName { get; set; } = string.Empty;
         [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
-        [Column(TypeName = "char(11)")]
-        public string CPF { get; set; }
-        public string? Uri { get; set; }
-        public Guid EmpresaId { get; set; }
         [NotMapped]
         public int Age
         {
