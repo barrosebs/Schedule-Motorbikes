@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
+
+.abel-regular {
+    font-family: "Abel", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+:root {
+    --fonte-princial: "Abel", sans-serif;
+    --green-100: #d1e7dd;
+    --green-200: #a3cfbb;
+    --green-300: #75b798;
+    --green-400: #479f76;
+    --green-500: #198754;
+    --green-600: #146c43;
+    --green-700: #0f5132;
+    --green-800: #0a3622;
+    --green-900: #051b11;
+}
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+/*Background*/
+.bg-green-900 {
+    background-color: var(--green-900)
+}
+
+.bg-green-800 {
+    background-color: var(--green-800)
+}
+
+.bg-green-700 {
+    background-color: var(--green-700)
+}
+
+.bg-green-600 {
+    background-color: var(--green-600)
+}
+
+.bg-green-500 {
+    background-color: var(--green-500)
+}
+
+.bg-green-400 {
+    background-color: var(--green-400)
+}
+
+.bg-green-300 {
+    background-color: var(--green-300)
+}
+
+.bg-green-200 {
+    background-color: var(--green-200)
+}
+
+.bg-green-100 {
+    background-color: var(--green-100)
+}
+
+.acessar {
+    font-weight: 700;
+    font-size: 2em;
+}

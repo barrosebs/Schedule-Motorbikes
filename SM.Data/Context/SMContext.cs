@@ -5,7 +5,7 @@ using SM.Domain.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 namespace SM.Data.Context
 {
-    public class SMContext : IdentityDbContext<User, IdentityRole<int>, int>
+    public class SMContext : IdentityDbContext<UserModel, IdentityRole<int>, int>
     {
         public SMContext(DbContextOptions<SMContext> options)
             : base(options)
@@ -13,22 +13,22 @@ namespace SM.Data.Context
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
 
-        public DbSet<Bike> Bikes { get; set; }
-        public DbSet<DeliveryPerson> DeliveryPeople { get; set; }
+        public DbSet<BikeModel> Bikes { get; set; }
+        public DbSet<DeliveryPersonModel> DeliveryPeople { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Bike>()
+            modelBuilder.Entity<BikeModel>()
             .HasIndex(p => p.LicenseTag)
             .IsUnique();
 
-            modelBuilder.Entity<DeliveryPerson>()
+            modelBuilder.Entity<DeliveryPersonModel>()
             .HasIndex(p => p.NumberCNPJ)
             .IsUnique();
 
-            modelBuilder.Entity<DeliveryPerson>()
+            modelBuilder.Entity<DeliveryPersonModel>()
             .HasIndex(p => p.NumberCNH)
             .IsUnique();
         }

@@ -14,11 +14,11 @@ namespace SM.Web
         {
             Configuration = configuration;
         }
-       
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            
+
             services.RegisterServices(Configuration);
 
             services.Configure<SendGridSettings>(Configuration.GetSection(nameof(SendGridSettings)));
@@ -37,7 +37,7 @@ namespace SM.Web
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
-            UserManager<User> userManager,
+            UserManager<UserModel> userManager,
             RoleManager<IdentityRole<int>> roleManager)
         {
             if (env.IsDevelopment())
@@ -62,7 +62,7 @@ namespace SM.Web
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute();
+               endpoints.MapDefaultControllerRoute();
             });
             Initializer.InicializarIdentity(userManager, roleManager);
         }

@@ -9,8 +9,8 @@ namespace SM.Application.Mapper
     {
         public MapperProfile()
         {
-            CreateMap<User, InsertUserVM>().ReverseMap();
-            CreateMap<Bike, BikeVM>().ReverseMap();
+            CreateMap<UserModel, InsertUserVM>().ReverseMap();
+            CreateMap<BikeModel, BikeVM>().ReverseMap();
           
             //exemplo
             //CreateMap<Group, GroupViewModel>().ReverseMap()
