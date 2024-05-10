@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SM.Domain.Model;
 using SM.Domain.Models;
-
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 namespace SM.Data.Context
 {
-    public class SMContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
+    public class SMContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         public SMContext(DbContextOptions<SMContext> options)
             : base(options)
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
 
         public DbSet<Bike> Bikes { get; set; }
