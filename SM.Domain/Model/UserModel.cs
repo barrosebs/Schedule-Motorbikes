@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SM.Domain.Models
 {
-    public class User : IdentityUser<int>
+    public class UserModel : IdentityUser<int>
     {
         [MaxLength(120)]
         public string FullName { get; set; } = string.Empty;

@@ -22,7 +22,7 @@ namespace SM.Services.IoC
                        .EnableSensitiveDataLogging()
             );
 
-            services.AddIdentity<User, IdentityRole<int>>(options =>
+            services.AddIdentity<UserModel, IdentityRole<int>>(options =>
                     {
                         options.User.RequireUniqueEmail = true; //false
                         options.User.AllowedUserNameCharacters =

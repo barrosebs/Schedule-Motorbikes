@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SM.Domain.Model
 {
-    public class DeliveryPerson : BasicModel
+    public class DeliveryPersonModel : BasicModel
     {
         [MaxLength(120)]
         public required string FullName { get; set; }
