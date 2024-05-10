@@ -9,18 +9,17 @@ using SM.Data.Context;
 using SM.Domain.Models;
 using SM.Services.Extensions;
 
-
 namespace SM.Services.IoC
 {
     public static class NativeInjectorConfig
     {
         public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<SMContext>(options =>
+            services
+                .AddDbContext<SMContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("SMConnection"))
                        .LogTo(Console.WriteLine, new[] { RelationalEventId.CommandExecuted })
                        .EnableSensitiveDataLogging()
-
             );
 
             services.AddIdentity<User, IdentityRole<int>>(options =>
@@ -34,7 +33,7 @@ namespace SM.Services.IoC
                         options.Password.RequireDigit = false; //true;
                         options.Password.RequiredUniqueChars = 1; //1;
                         options.Password.RequiredLength = 6; //6;
-                        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3); 
+                        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3);
                         options.Lockout.MaxFailedAccessAttempts = 5; //5
                         options.Lockout.AllowedForNewUsers = true; //true		
                         options.SignIn.RequireConfirmedEmail = true; //false
@@ -43,7 +42,7 @@ namespace SM.Services.IoC
                     })
                 .AddEntityFrameworkStores<SMContext>()
                 .AddDefaultTokenProviders();
-
+                
             //services.AddScoped<IServiceBase<Menu>, MenuService>();
 
             //services.AddTransient<SeedingRepository>();

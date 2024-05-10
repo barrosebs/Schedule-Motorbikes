@@ -12,6 +12,6 @@ namespace SM.Domain.Model
         [ReadOnly(true)]
         public Guid Id { get; set; } = Guid.NewGuid();
         public DateTime DateCreated { get; set; } = DateTime.Now;
-        public Guid? UserId { get; set; }
+        public int? UserId { get; set; }
     }
 }
