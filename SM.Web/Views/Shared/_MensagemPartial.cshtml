@@ -1,0 +1,20 @@
+@using SM.Domain.Enum
+@using SM.Domain.ViewModel
+@if (TempData.ContainsKey("mensagem"))
+{
+    MessageVM message = MessageVM.Deserializer(TempData["mensagem"]?.ToString()??"Nenhuma mensagem atribuida");
+    @if (message.Type == EMessageType.Error)
+    {
+        <div class="alert alert-warning mt-3 alert-dismissible fade show" role="alert">
+            @Html.Raw(message.Text)
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-success mt-3 alert-dismissible fade show" role="alert">
+            @Html.Raw(message.Text)
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+}

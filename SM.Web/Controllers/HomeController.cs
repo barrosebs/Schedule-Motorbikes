@@ -5,7 +5,7 @@ using System.Diagnostics;
 namespace SW.Web.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("Home")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -17,6 +17,7 @@ namespace SW.Web.Controllers
         [HttpGet("~/Index")]
         public IActionResult Index()
         {
+            ViewData["Title"] = "Página Inicial";
             return View();
         }
         [HttpGet("~/Privacy")]
