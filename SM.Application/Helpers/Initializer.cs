@@ -16,12 +16,12 @@ namespace SM.Application.Helpers
                 roleManager.CreateAsync(perfil).Wait();
             }
         }
-        private static void InitializerUserAdmin(UserManager<User> userManager)
+        private static void InitializerUserAdmin(UserManager<UserModel> userManager)
         {
 
             if (userManager.FindByNameAsync("barrosebs+admin@gmail.com").GetAwaiter().GetResult() == null)
             {
-                var user = new User();
+                var user = new UserModel();
                 user.UserName = "System.Admin";
                 user.Email = "barrosebs+admin@gmail.com";
                 user.FullName = "Administrador do Sistema";
@@ -39,7 +39,7 @@ namespace SM.Application.Helpers
             }
         }
         public static void InicializarIdentity(
-                UserManager<User> userManager,
+                UserManager<UserModel> userManager,
                 RoleManager<IdentityRole<int>> roleManager
             )
         {
