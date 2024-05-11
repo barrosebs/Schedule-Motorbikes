@@ -5,7 +5,6 @@ using System.Diagnostics;
 namespace SW.Web.Controllers
 {
     [ApiController]
-    [Route("Home")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -14,23 +13,21 @@ namespace SW.Web.Controllers
         {
             _logger = logger;
         }
-        [HttpGet("~/Index")]
+        [HttpGet("[controller]/Index")]
         public IActionResult Index()
         {
             ViewData["Title"] = "Página Inicial";
             return View();
         }
-        [HttpGet("~/Privacy")]
+        [HttpGet("[controller]/Privacy")]
         public IActionResult Privacy()
         {
             return View();
         }
-
-        [HttpGet(Name ="Duration")]
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpGet("[controller]/Logged")]
+        public IActionResult Logged()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View();
         }
     }
 }

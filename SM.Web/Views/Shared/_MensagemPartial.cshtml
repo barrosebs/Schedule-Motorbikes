@@ -1,8 +1,8 @@
 @using SM.Domain.Enum
 @using SM.Domain.ViewModel
-@if (TempData.ContainsKey("mensagem"))
+@if (TempData.ContainsKey("message"))
 {
-    MessageVM message = MessageVM.Deserializer(TempData["mensagem"]?.ToString()??"Nenhuma mensagem atribuida");
+    MessageVM? message = MessageVM.Deserializer(TempData["message"].ToString());
     @if (message.Type == EMessageType.Error)
     {
         <div class="alert alert-warning mt-3 alert-dismissible fade show" role="alert">

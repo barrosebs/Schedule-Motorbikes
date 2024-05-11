@@ -36,9 +36,14 @@ html {
   position: relative;
   min-height: 100%;
 }
+ul{
+    list-style-type: none;
 
+}
 body {
-  margin-bottom: 60px;
+    font-family: "Abel", sans-serif;
+    margin-bottom: 60px;
+    font-style: normal;
 }
 
 /*Background*/
