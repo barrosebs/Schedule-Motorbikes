@@ -7,22 +7,22 @@ namespace SM.Domain.ViewModel
     {
         public EMessageType Type { get; set; }
         public string Text { get; set; }
-        public MessageVM(string message, EMessageType type = EMessageType.Information)
+        public MessageVM(string text, EMessageType type = EMessageType.Information)
         {
             Type = type;
-            Text = message;
+            Text = text;
         }
 
         public static string Serializer(string mensagem, EMessageType tipo = EMessageType.Information)
         {
-            var mensagemModel = new MessageVM(mensagem, tipo);
-            return JsonSerializer.Serialize(mensagemModel);
+            var message = new MessageVM(mensagem, tipo);
+            return JsonSerializer.Serialize(message);
         }
 
-        public static MessageVM Deserializer(string mensagemString)
+        public static MessageVM? Deserializer(string messageStr)
         {
-            var returnMessage = JsonSerializer.Deserialize<MessageVM>(mensagemString) ?? new MessageVM(mensagemString);
-            return returnMessage;
+            var message = JsonSerializer.Deserialize<MessageVM>(messageStr) ;
+            return message;
         }
     }
 }
