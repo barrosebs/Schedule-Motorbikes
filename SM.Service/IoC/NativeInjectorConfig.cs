@@ -6,7 +6,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SM.Application.Mapper;
 using SM.Data.Context;
+using SM.Data.Repositories;
+using SM.Domain.Interface.IRepositories;
+using SM.Domain.Interface.IService;
+using SM.Domain.Model;
 using SM.Domain.Models;
+using SM.Service;
 using SM.Services.Extensions;
 
 namespace SM.Services.IoC
@@ -42,12 +47,14 @@ namespace SM.Services.IoC
                     })
                 .AddEntityFrameworkStores<SMContext>()
                 .AddDefaultTokenProviders();
-                
-            //services.AddScoped<IServiceBase<Menu>, MenuService>();
+            #region Services
+            services.AddScoped<IServiceBase<DeliveryPersonModel>, DeliveryPersonService>();
+            #endregion
 
+            #region Repository
+            services.AddScoped<IDeliveryPersonRepository, DeliveryPersonRepository>();
             //services.AddTransient<SeedingRepository>();
-            //services.AddScoped<IMenuRepository, MenuRepository>();
-
+            #endregion
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddAutoMapperApi(typeof(MapperProfile));
             services.ConfigureApplicationCookie(options =>
@@ -55,9 +62,9 @@ namespace SM.Services.IoC
                 options.Cookie.Name = "AppControleUsuarios"; //AspNetCore.Cookies
                 options.Cookie.HttpOnly = true; //true
                 options.ExpireTimeSpan = TimeSpan.FromHours(4); //14 dias
-                options.LoginPath = "/Usuario/Login"; // /Account/Login
+                options.LoginPath = "/Account/Login"; // /Account/Login
                 options.LogoutPath = "/Home/Principal";  // /Account/Logout
-                options.AccessDeniedPath = "/Usuario/AcessoRestrito"; // /Account/AccessDenied
+                options.AccessDeniedPath = "/User/AcessoRestrito"; // /Account/AccessDenied
                 options.SlidingExpiration = true; //true - gera um novo cookie a cada requisição se o cookie estiver com menos de meia vida
                 options.ReturnUrlParameter = "returnUrl"; //returnUrl
             });

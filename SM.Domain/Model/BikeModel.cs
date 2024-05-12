@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SM.Domain.Models
 {
-    public class BikeModel :BasicModel
+    public class BikeModel :ModelBase
     {
         [Column(TypeName = "char(4)")]
         [ReadOnly(true)]

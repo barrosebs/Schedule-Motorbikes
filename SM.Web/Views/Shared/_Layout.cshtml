@@ -25,29 +25,8 @@
                     <div class="collapse navbar-collapse" id="navbarMain">
                         <div class="navbar-nav ms-auto text-light">
                             <a class="nav-link" asp-controller="Home" asp-action="Principal" asp-link-class="link-ativo">Principal</a>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                    <b>Cadastros</b>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li>
-                                        <a class="dropdown-item" asp-controller="Usuario" asp-action="Index" asp-link-class="link-ativo">Usuários</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-controller="Paciente" asp-action="Index" asp-link-class="link-ativo">Paciente</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-controller="Profissional" asp-action="Index" asp-link-class="link-ativo">Profissional</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-controller="Menu" asp-action="Index" asp-link-class="link-ativo">Menu</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-controller="Empresa" asp-action="Index" asp-link-class="link-ativo">Empresa</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <a class="nav-link" asp-controller="Home" asp-action="Dashboad" asp-link-class="link-ativo">Dashboard</a>
+
+                            <a class="nav-link" asp-controller="DeliveryPerson" asp-action="Index" asp-link-class="link-ativo">Motos</a>
                         </div>
                     </div>
                     <div class="loginLogout">
@@ -91,8 +70,8 @@
             &copy; 2024 - Schedule Motorbikes - <a asp-area="" asp-controller="Home" asp-action="Privacy">Política de Privacidade</a>
         </div>
     </footer>
-    <script src="./lib/jquery/dist/jquery.min.js"></script>
-    <script src="./lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
     

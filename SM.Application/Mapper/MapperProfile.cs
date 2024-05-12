@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using SM.Domain.Model;
 using SM.Domain.Models;
 using SM.Domain.ViewModel;
 
@@ -11,6 +12,7 @@ namespace SM.Application.Mapper
         {
             CreateMap<UserModel, InsertUserVM>().ReverseMap();
             CreateMap<BikeModel, BikeVM>().ReverseMap();
+            CreateMap<DeliveryPersonModel, DeliveryPersonVM>().ReverseMap();
           
             //exemplo
             //CreateMap<Group, GroupViewModel>().ReverseMap()

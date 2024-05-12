@@ -6,7 +6,7 @@ namespace SM.Domain.Model
 {
     [Owned]
 
-    public class BasicModel
+    public class ModelBase
     {
         [Key]
         [ReadOnly(true)]

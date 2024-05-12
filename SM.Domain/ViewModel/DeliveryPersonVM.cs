@@ -4,16 +4,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SM.Domain.Model
 {
-    public class DeliveryPersonModel : ModelBase
+    public class DeliveryPersonVM
     {
-        [MaxLength(120)]
+        public string? Id { get; set; }
+        [Display(Name ="Nome Completo")]
         public required string FullName { get; set; }
-        [Column(TypeName = "char(18)")]
+        [Display(Name ="Número CNPJ")]
         public required string NumberCNPJ { get; set; }
-        [Column(TypeName = "char(11)")]
+        [Display(Name ="Número CNH")]
         public required string NumberCNH { get; set; }
+        [Display(Name ="Categoria")]
         public ETypeCNH TypeCNH { get; set; }
-        [MaxLength(150)]
+        [Display(Name = "Adicionar imagem CNH (Formto: png ou bmp)")]
         public string? UrlImageCNH { get; set; }
+        public DateTime DateCreated { get; set; }
+        
     }
 }
