@@ -154,14 +154,14 @@ namespace SM.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("SM.Domain.Model.DeliveryPerson", b =>
+            modelBuilder.Entity("SM.Domain.Model.DeliveryPersonModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("FullName")
                         .IsRequired()
@@ -170,18 +170,18 @@ namespace SM.Data.Migrations
 
                     b.Property<string>("NumberCNH")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("char(11)");
 
                     b.Property<string>("NumberCNPJ")
                         .IsRequired()
-                        .HasColumnType("char(14)");
+                        .HasColumnType("char(18)");
 
                     b.Property<int>("TypeCNH")
                         .HasColumnType("integer");
 
                     b.Property<string>("UrlImageCNH")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("integer");
@@ -197,7 +197,7 @@ namespace SM.Data.Migrations
                     b.ToTable("DeliveryPeople");
                 });
 
-            modelBuilder.Entity("SM.Domain.Models.Bike", b =>
+            modelBuilder.Entity("SM.Domain.Models.BikeModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -208,7 +208,7 @@ namespace SM.Data.Migrations
                         .HasColumnType("char(4)");
 
                     b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("LicenseTag")
                         .IsRequired()
@@ -229,7 +229,7 @@ namespace SM.Data.Migrations
                     b.ToTable("Bikes");
                 });
 
-            modelBuilder.Entity("SM.Domain.Models.User", b =>
+            modelBuilder.Entity("SM.Domain.Models.UserModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -245,7 +245,7 @@ namespace SM.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -315,7 +315,7 @@ namespace SM.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("SM.Domain.Models.User", null)
+                    b.HasOne("SM.Domain.Models.UserModel", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -324,7 +324,7 @@ namespace SM.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("SM.Domain.Models.User", null)
+                    b.HasOne("SM.Domain.Models.UserModel", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -339,7 +339,7 @@ namespace SM.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SM.Domain.Models.User", null)
+                    b.HasOne("SM.Domain.Models.UserModel", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -348,7 +348,7 @@ namespace SM.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("SM.Domain.Models.User", null)
+                    b.HasOne("SM.Domain.Models.UserModel", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
