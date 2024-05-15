@@ -197,36 +197,37 @@ namespace SM.Data.Migrations
                     b.ToTable("DeliveryPeople");
                 });
 
-            modelBuilder.Entity("SM.Domain.Models.BikeModel", b =>
+            modelBuilder.Entity("SM.Domain.Model.MotorcycleModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Age")
-                        .IsRequired()
-                        .HasColumnType("char(4)");
-
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("LicenseTag")
+                    b.Property<string>("LicensePlate")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("char(7)");
 
                     b.Property<string>("Model")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Year")
+                        .IsRequired()
+                        .HasColumnType("char(4)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("LicenseTag")
+                    b.HasIndex("LicensePlate")
                         .IsUnique();
 
-                    b.ToTable("Bikes");
+                    b.ToTable("Motorcycles");
                 });
 
             modelBuilder.Entity("SM.Domain.Models.UserModel", b =>

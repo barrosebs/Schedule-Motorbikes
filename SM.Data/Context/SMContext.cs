@@ -13,17 +13,17 @@ namespace SM.Data.Context
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
 
-        public DbSet<BikeModel> Bikes { get; set; }
         public DbSet<DeliveryPersonModel> DeliveryPeople { get; set; }
+        public DbSet<MotorcycleModel> Motorcycles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<BikeModel>()
-            .HasIndex(p => p.LicenseTag)
+            modelBuilder.Entity<MotorcycleModel>()
+            .HasIndex(p => p.LicensePlate)
             .IsUnique();
-
+            
             modelBuilder.Entity<DeliveryPersonModel>()
             .HasIndex(p => p.NumberCNPJ)
             .IsUnique();

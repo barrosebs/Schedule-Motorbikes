@@ -38,7 +38,6 @@ namespace SM.Web.Controllers
             var viewModel = _mapper.Map<IEnumerable<DeliveryPersonVM>>(model);
             return View(viewModel);
         }
-        [HttpGet("Create")]
         public IActionResult Create()
         {
             ViewData["Title"] = "Cria Motoboy";

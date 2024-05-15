@@ -49,10 +49,12 @@ namespace SM.Services.IoC
                 .AddDefaultTokenProviders();
             #region Services
             services.AddScoped<IServiceBase<DeliveryPersonModel>, DeliveryPersonService>();
+            services.AddScoped<IServiceBase<MotorcycleModel>, MotorcycleService>();
             #endregion
 
             #region Repository
             services.AddScoped<IDeliveryPersonRepository, DeliveryPersonRepository>();
+            services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
             //services.AddTransient<SeedingRepository>();
             #endregion
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

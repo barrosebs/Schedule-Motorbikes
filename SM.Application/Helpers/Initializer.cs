@@ -22,7 +22,7 @@ namespace SM.Application.Helpers
             if (userManager.FindByNameAsync("barrosebs+admin@gmail.com").GetAwaiter().GetResult() == null)
             {
                 var user = new UserModel();
-                user.UserName = "System.Admin";
+                user.UserName = "admin";
                 user.Email = "barrosebs+admin@gmail.com";
                 user.FullName = "Administrador do Sistema";
                 user.DateOfBirth = new DateTime(1980, 2, 27);

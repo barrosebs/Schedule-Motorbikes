@@ -4,11 +4,22 @@ namespace SM.Web.Helpers
 {
     public static class ToolsHelpers
     {
+        /// <summary>
+        /// Remove mask
+        /// </summary>
+        /// <param name="cnpj"></param>
+        /// <returns></returns>
         public static string RemoveMaskCNPJ(string cnpj)
         {
             string cnpjClear = Regex.Replace(cnpj, "[./-]", "");
             return cnpjClear;
         }
+        /// <summary>
+        /// Uplods to files
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="subFolder"></param>
+        /// <returns></returns>
         public static string UploadFile(IFormFile file, string subFolder)
         {
             var folderUploads = Path.Combine(Directory.GetCurrentDirectory(), "Uploads", $"CNH_{subFolder}");
