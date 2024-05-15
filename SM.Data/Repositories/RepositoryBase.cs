@@ -15,7 +15,7 @@ namespace SM.Data.Repositories
                                                                                         .AsNoTracking()
                                                                                         .ToListAsync();
 
-        public virtual async Task<TEntity?> GetByIdAsync(int id) => await _context.Set<TEntity>().FindAsync(id);
+        public virtual async Task<TEntity?> GetByIdAsync(Guid id) => await _context.Set<TEntity>().FindAsync(id);
 
         public virtual async Task<object> CreateAsync(TEntity objeto)
         {
@@ -70,7 +70,7 @@ namespace SM.Data.Repositories
             }
         }
 
-        public virtual async Task RemoveByIdAsync(int id)
+        public virtual async Task RemoveByIdAsync(Guid id)
         {
             try
             {

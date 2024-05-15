@@ -11,7 +11,12 @@ namespace SM.Domain.Model
         [Key]
         [ReadOnly(true)]
         public Guid Id { get; set; } = Guid.NewGuid();
-        public DateTime DateCreated { get; set; } = DateTime.Now;
+        public DateTime DateCreated { get; set; }
         public int? UserId { get; set; }
+
+        public ModelBase()
+        {
+            DateCreated = DateTime.Now;
+        }
     }
 }
