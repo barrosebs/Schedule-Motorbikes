@@ -26,7 +26,7 @@
                         <div class="navbar-nav ms-auto text-light">
                             <a class="nav-link" asp-controller="Home" asp-action="Principal" asp-link-class="link-ativo">Principal</a>
 
-                            <a class="nav-link" asp-controller="DeliveryPerson" asp-action="Index" asp-link-class="link-ativo">Motos</a>
+                            <a class="nav-link" asp-controller="DeliveryPerson" asp-action="Index" asp-link-class="link-ativo">Motoboy</a>
                         </div>
                     </div>
                     <div class="loginLogout">
@@ -73,6 +73,8 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
     
 </body>

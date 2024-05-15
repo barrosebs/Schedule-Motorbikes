@@ -17,6 +17,7 @@
     --green-700: #0f5132;
     --green-800: #0a3622;
     --green-900: #051b11;
+    --blue-100: #edf2fb;
 }
 html {
   font-size: 14px;
@@ -82,8 +83,15 @@ body {
 .bg-green-100 {
     background-color: var(--green-100)
 }
+.bg-blue-100 {
+    background-color: var(--blue-100)
+}
 
 .acessar {
     font-weight: 700;
     font-size: 2em;
+}
+.obrigatorio {
+    font-weight: 700;
+    color: red;
 }

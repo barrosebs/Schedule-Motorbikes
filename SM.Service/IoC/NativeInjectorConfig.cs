@@ -59,7 +59,7 @@ namespace SM.Services.IoC
             services.AddAutoMapperApi(typeof(MapperProfile));
             services.ConfigureApplicationCookie(options =>
             {
-                options.Cookie.Name = "AppControleUsuarios"; //AspNetCore.Cookies
+                options.Cookie.Name = "AppControleUser"; //AspNetCore.Cookies
                 options.Cookie.HttpOnly = true; //true
                 options.ExpireTimeSpan = TimeSpan.FromHours(4); //14 dias
                 options.LoginPath = "/Account/Login"; // /Account/Login

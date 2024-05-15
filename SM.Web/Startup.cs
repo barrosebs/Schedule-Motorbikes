@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using SM.Application.Helpers;
 using SM.Domain.Model.SettingsModel;
@@ -17,8 +18,13 @@ namespace SM.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
             services.AddControllersWithViews();
-
+            services.AddHttpContextAccessor();
             services.RegisterServices(Configuration);
 
             services.Configure<SendGridSettings>(Configuration.GetSection(nameof(SendGridSettings)));
@@ -48,7 +54,7 @@ namespace SM.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+            
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -56,14 +62,21 @@ namespace SM.Web
             });
 
             app.UseDeveloperExceptionPage();
+            
             app.UseStaticFiles();
+            
             app.UseRouting();
+            
             app.UseAuthentication();
             app.UseAuthorization();
+            
             app.UseEndpoints(endpoints =>
             {
-               endpoints.MapDefaultControllerRoute();
+                endpoints.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
             Initializer.InicializarIdentity(userManager, roleManager);
         }
     }
