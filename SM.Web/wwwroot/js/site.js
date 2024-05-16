@@ -45,3 +45,24 @@ function capitalizeWords(str) {
         return char.toUpperCase();
     });
 }
+
+function filterMotocycle() {
+    // Obtém o valor digitado no campo de busca
+    var plate = document.getElementById('searchPlate').value.toUpperCase();
+
+    // Obtém todas as linhas da tabela de motos
+    var rows = document.querySelectorAll('tbody tr');
+
+    // Itera sobre as linhas e mostra ou oculta de acordo com a placa digitada
+    rows.forEach(function (row) {
+        var columnPlate = row.querySelector('td:first-child').textContent.toUpperCase();
+        if (columnPlate.indexOf(plate) > -1) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+// Adiciona um listener para o evento 'input' no campo de busca
+document.getElementById('searchPlate').addEventListener('input', filterMotocycle);
