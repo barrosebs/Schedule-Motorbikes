@@ -15,6 +15,12 @@ namespace SM.Application.Helpers
                 perfil.Name = Enum.GetName(typeof(ERole), ERole.Administrator);
                 roleManager.CreateAsync(perfil).Wait();
             }
+            if (!roleManager.RoleExistsAsync(Enum.GetName(typeof(ERole), ERole.DeliveryPerson)).GetAwaiter().GetResult())
+            {
+                var perfil = new IdentityRole<int>();
+                perfil.Name = Enum.GetName(typeof(ERole), ERole.DeliveryPerson);
+                roleManager.CreateAsync(perfil).Wait();
+            }
         }
         private static void InitializerUserAdmin(UserManager<UserModel> userManager)
         {
