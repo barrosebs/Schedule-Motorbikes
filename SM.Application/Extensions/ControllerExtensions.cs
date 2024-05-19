@@ -6,7 +6,7 @@ namespace SM.Application.Extensions
 {
     public static class ControllerExtensions
     {
-        public static void MostrarMensagem(this Controller @this, string text, bool error = false)
+        public static void ShowMessage(this Controller @this, string text, bool error = false)
         {
             @this.TempData["message"] = MessageVM.Serializer(
                 text, error ? EMessageType.Error : EMessageType.Information);
