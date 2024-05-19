@@ -1,0 +1,22 @@
+@using SM.Domain.Model
+@model MotorcycleVM
+@{
+    ViewBag.Subtitulo = "Exclusão de Empresa";
+}
+
+<header>
+    <div>
+
+        <h2 class="text-primary">@ViewBag.Subtitulo</h2>
+    </div>
+</header>
+<hr>
+<h4>Deseja realmente excluir <b class="text-danger">@Model.LicensePlate</b>?</h4>
+
+<form asp-action="ExcluirPost" class="w-25">
+    <input type="hidden" asp-for="@Model.Id">
+    <div class="mt-3">
+        <a asp-action="Index" class="btn btn-success">Não</a>
+        <button class="btn btn-danger" type="submit">Sim</button>
+    </div>
+</form>

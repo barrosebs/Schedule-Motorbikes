@@ -36,15 +36,6 @@
                 else
                 @if (Context.User.Identity.IsAuthenticated && !Context.User.IsInRole(ERole.Administrator.ToString()))
                 {
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarMain">
-                        <div class="navbar-nav ms-auto text-light">
-                            <a class="nav-link" asp-controller="Home" asp-action="Principal" asp-link-class="link-ativo">Principal</a>
-                            <a class="nav-link" asp-controller="Home" asp-action="Dashboad" asp-link-class="link-ativo">Dashboard</a>
-                        </div>
-                    </div>
                     <div class="loginLogout">
                         <partial name="_LoginLogoutLinkPartial" />
                     </div>

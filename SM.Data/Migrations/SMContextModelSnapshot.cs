@@ -163,6 +163,13 @@ namespace SM.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<DateTime>("DateValidationCNH")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasMaxLength(120)
@@ -185,6 +192,9 @@ namespace SM.Data.Migrations
 
                     b.Property<int?>("UserId")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("isValidDeliveryPerson")
+                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 

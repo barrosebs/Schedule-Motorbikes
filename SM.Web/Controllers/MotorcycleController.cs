@@ -58,7 +58,7 @@ namespace SM.Web.Controllers
                     model.UserId = int.Parse(userId);
                     await _motorcycle.CreateAsync(model);
 
-                    this.MostrarMensagem("Dados da moto salvo com sucesso.");
+                    this.ShowMessage("Dados da moto salvo com sucesso.");
                     return RedirectToAction("Index", "Motorcycle");
                 }
                 catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException postgresEx && postgresEx.SqlState == "23505")
@@ -69,14 +69,14 @@ namespace SM.Web.Controllers
                 }
                 catch (Exception ex)
                 {
-                    this.MostrarMensagem("ERRO:" + ex.Message, true);
+                    this.ShowMessage("ERRO:" + ex.Message, true);
                     return View();
                 }
 
             }
             else
             {
-                this.MostrarMensagem("Erro ao tentar Gravas dados da moto!.", true);
+                this.ShowMessage("Erro ao tentar Gravas dados da moto!.", true);
                 foreach (var error in ModelState)
                 {
                     ModelState.AddModelError(string.Empty, error.Key);
@@ -85,5 +85,55 @@ namespace SM.Web.Controllers
             }
         }
 
+        [HttpGet("Update/{id}")]
+        public async Task<IActionResult> Update(Guid id)
+        {
+            MotorcycleModel? model = await _motorcycle.GetByIdAsync(id);
+            if (model == null)
+            {
+                this.ShowMessage("Moto não locazada.", true);
+                return RedirectToAction(nameof(Index));
+            }
+            MotorcycleVM modelView = _mapper.Map<MotorcycleVM>(model);
+            return View(modelView);
+        }
+        [HttpPost("Update/{id}")]
+        public async Task<IActionResult> Update(string licensePlate, Guid id)
+        {
+            MotorcycleModel? model = await _motorcycle.GetByIdAsync(id);
+
+            if (model?.LicensePlate != null) { 
+                model.LicensePlate = licensePlate.ToUpper(); 
+                await _motorcycle.UpdateAsync(model);
+            }
+            else {
+                this.ShowMessage("Moto não locazada.", true);
+                return View();
+            }
+            
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        [HttpGet("Delete/{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                this.ShowMessage("Moto não informado.", true);
+                return RedirectToAction(nameof(Index));
+            }
+            MotorcycleModel? model = await _motorcycle.GetByIdAsync(id);
+            if (model == null)
+            {
+                this.ShowMessage("Motoboy não encontrado.", true);
+                return RedirectToAction(nameof(Index));
+            }
+
+            await _motorcycle.RemoveAsync(model);
+            this.ShowMessage("Motoboy Deletado.", false);
+            return RedirectToAction("Index", "Motorcycle");
+        }
     }
 }

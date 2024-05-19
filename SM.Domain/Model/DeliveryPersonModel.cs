@@ -15,7 +15,8 @@ namespace SM.Domain.Model
         public ETypeCNH TypeCNH { get; set; }
         [MaxLength(150)]
         public string? UrlImageCNH { get; set; }
-        public DateTime DateValidationCNH { get; set; }
+        public required DateTime DateValidationCNH { get; set; }
         public bool isValidDeliveryPerson { get; set; } = false;
+        public required string Email{ get; set; }
     }
 }

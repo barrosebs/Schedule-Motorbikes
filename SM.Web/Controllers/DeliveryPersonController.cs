@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SM.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = nameof(ERole.Administrator))]
     [Route("[controller]")]
     public class DeliveryPersonController : Controller
     {
@@ -72,7 +72,7 @@ namespace SM.Web.Controllers
                     model.NumberCNPJ = ToolsHelpers.RemoveMaskCNPJ(viewModel.NumberCNPJ);
                     await _deliveryPerson.CreateAsync(model);
                     
-                    this.MostrarMensagem("Dados do motoboy salvo com sucesso.");
+                    this.ShowMessage("Dados do motoboy salvo com sucesso.");
                     return RedirectToAction("Index", "DeliveryPerson");
                 }catch (DbUpdateException ex) when(ex.InnerException is Npgsql.PostgresException postgresEx && postgresEx.SqlState == "23505")
                 {
@@ -85,14 +85,14 @@ namespace SM.Web.Controllers
                 }
                 catch (Exception ex)
                 {
-                    this.MostrarMensagem("ERRO:" + ex.Message, true);
+                    this.ShowMessage("ERRO:" + ex.Message, true);
                     return View();
                 }
 
             }
             else
             {
-                this.MostrarMensagem("Erro ao tentar Gravas dados do motoboy!.", true);
+                this.ShowMessage("Erro ao tentar Gravas dados do motoboy!.", true);
                 foreach (var error in ModelState)
                 {
                     ModelState.AddModelError(string.Empty, error.Key);
@@ -110,18 +110,18 @@ namespace SM.Web.Controllers
         {
             if (id == Guid.Empty)
             {
-                this.MostrarMensagem("Motoboy não informado.", true);
+                this.ShowMessage("Motoboy não informado.", true);
                 return RedirectToAction(nameof(Index));
             }
             DeliveryPersonModel? DeliveryPersonModal = await _deliveryPerson.GetByIdAsync(id);
             if (DeliveryPersonModal == null)
             {
-                this.MostrarMensagem("Motoboy não encontrado.", true);
+                this.ShowMessage("Motoboy não encontrado.", true);
                 return RedirectToAction(nameof(Index));
             }
             
             await _deliveryPerson.RemoveAsync(DeliveryPersonModal);
-            this.MostrarMensagem("Motoboy Deletado.", false);
+            this.ShowMessage("Motoboy Deletado.", false);
             return RedirectToAction("Index", "DeliveryPerson");
         }
 
@@ -135,7 +135,7 @@ namespace SM.Web.Controllers
         {
             try
             {
-                this.MostrarMensagem("Motoboy Deletado.", false);
+                this.ShowMessage("Motoboy Deletado.", false);
                 return View();
             }
             catch (Exception ex)
