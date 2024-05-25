@@ -15,6 +15,7 @@ namespace SM.Data.Context
 
         public DbSet<DeliveryPersonModel> DeliveryPeople { get; set; }
         public DbSet<MotorcycleModel> Motorcycles { get; set; }
+        public DbSet<AllocationModel> Allocations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
