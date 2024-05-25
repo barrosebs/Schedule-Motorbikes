@@ -50,12 +50,14 @@ namespace SM.Services.IoC
             #region Services
             services.AddScoped<IServiceBase<DeliveryPersonModel>, DeliveryPersonService>();
             services.AddScoped<IServiceBase<MotorcycleModel>, MotorcycleService>();
+            services.AddScoped<IServiceBase<AllocationModel>, AllocationService>();
+            services.AddScoped<IServiceBase<PlanModel>, PlanService>();
             #endregion
 
             #region Repository
             services.AddScoped<IDeliveryPersonRepository, DeliveryPersonRepository>();
             services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
-            //services.AddTransient<SeedingRepository>();
+            services.AddScoped<IAllocationRepository, AllocationRepository>();
             #endregion
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddAutoMapperApi(typeof(MapperProfile));

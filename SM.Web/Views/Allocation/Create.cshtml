@@ -1,0 +1,40 @@
+﻿@using SM.Domain.Model
+@model AllocationVM
+
+@{
+    ViewBag.Title = "Aluguel";
+}
+<partial name="_MensagemPartial" />
+<main>
+    <section class="" style="margin-top:10%;">
+        @using (Html.BeginForm("Create", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            
+        <div class="form-group col-sm-8 col-lg-4 col-xl-4">
+                <label asp-for="@Model.Motorcycle"></label><i class="obrigatorio">*</i>
+                <select asp-for="Motorcycle" class="form-select" aria-label="Select">
+                <option selected disabled>Selecione sua moto</option>
+                    @foreach (var item in ViewBag.ListMotorcycle)
+                {
+                    <option value="@item.Id">@item.ToString()</option>
+                }
+            </select>
+        </div>
+            <div class="form-group col-sm-8 col-lg-4 col-xl-4">
+                <label asp-for="@Model.Plan"></label><i class="obrigatorio">*</i>
+                <select asp-for="Plan" class="form-select" aria-label="Select">
+                    <option selected disabled>Selecione o plano</option>
+                    @foreach (var item in ViewBag.AllocationPlano)
+                    {
+                        <option value="@item.Id">@item.ToString()</option>
+                    }
+                </select>
+            </div>
+        }
+       ok Listar motos de motos
+        Lista Tipo de Plano
+        com seus valores
+        verificar as motos disponíveis
+
+    </section>
+</main>

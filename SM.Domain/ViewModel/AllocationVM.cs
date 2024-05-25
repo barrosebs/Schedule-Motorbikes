@@ -13,7 +13,7 @@ namespace SM.Domain.Model
         public MotorcycleModel Motorcycle { get; set; }
         [Display(Name = "Plano")]
         public EAllocationPlan Plan { get; set; }
-        [Display(Name = "Data da Alocação")]
+        [Display(Name = "Inicio da Alocação")]
         public DateTime StartDateToAllocation { get; set; }
         [Display(Name = "Entrega Prevista")]
         public DateTime EndDateToAllocation { get; set; }
