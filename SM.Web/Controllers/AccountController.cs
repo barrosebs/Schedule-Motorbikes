@@ -11,7 +11,6 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SM.Web.Helpers;
 using SM.Domain.Interface.IService;
-using Newtonsoft.Json.Linq;
 
 namespace SM.Web.Controllers
 {
@@ -19,30 +18,20 @@ namespace SM.Web.Controllers
     [Route("[controller]")]
     public class AccountController : Controller
     {
-        IConfiguration _configuration;
-
         private readonly UserManager<UserModel> _userManager;
         private readonly SignInManager<UserModel> _signInManager;
-        private readonly RoleManager<IdentityRole<int>> _roleManager;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
         private readonly IServiceBase<DeliveryPersonModel> _deliveryPerson;
 
         public AccountController(
-                                    IConfiguration configuration,
                                     UserManager<UserModel> userManager,
                                     SignInManager<UserModel> signInManager,
-                                    RoleManager<IdentityRole<int>> roleManager,
-                                    IHttpContextAccessor httpContextAccessor,
                                     IMapper mapper,
                                     IServiceBase<DeliveryPersonModel> deliveryPerson
                                 )
         {
-            _configuration = configuration;
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
-            _httpContextAccessor = httpContextAccessor;
             _mapper = mapper;
             _deliveryPerson = deliveryPerson;
         }
