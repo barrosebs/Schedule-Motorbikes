@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using SM.Application.Helpers;
+using SM.Data.Repositories;
 using SM.Domain.Model.SettingsModel;
 using SM.Domain.Models;
 using SM.Services.IoC;
@@ -42,13 +43,14 @@ namespace SM.Web
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, SeedingRepository seeding,
             UserManager<UserModel> userManager,
             RoleManager<IdentityRole<int>> roleManager)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                seeding.Seed();
             }
             else
             {
