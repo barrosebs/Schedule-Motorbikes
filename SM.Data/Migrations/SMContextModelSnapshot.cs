@@ -154,6 +154,45 @@ namespace SM.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("SM.Domain.Model.AllocationModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("DeliveryDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("DeliveryPersonID")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("EPlan")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("EndDateToAllocation")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("MotorcycleID")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("StartDateToAllocation")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeliveryPersonID");
+
+                    b.HasIndex("MotorcycleID");
+
+                    b.ToTable("Allocations");
+                });
+
             modelBuilder.Entity("SM.Domain.Model.DeliveryPersonModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -238,6 +277,32 @@ namespace SM.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Motorcycles");
+                });
+
+            modelBuilder.Entity("SM.Domain.Model.PlanModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("EPlan")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("LimitDayPlan")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Plans");
                 });
 
             modelBuilder.Entity("SM.Domain.Models.UserModel", b =>
@@ -364,6 +429,25 @@ namespace SM.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SM.Domain.Model.AllocationModel", b =>
+                {
+                    b.HasOne("SM.Domain.Model.DeliveryPersonModel", "DeliveryPerson")
+                        .WithMany()
+                        .HasForeignKey("DeliveryPersonID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SM.Domain.Model.MotorcycleModel", "Motorcycle")
+                        .WithMany()
+                        .HasForeignKey("MotorcycleID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DeliveryPerson");
+
+                    b.Navigation("Motorcycle");
                 });
 #pragma warning restore 612, 618
         }
