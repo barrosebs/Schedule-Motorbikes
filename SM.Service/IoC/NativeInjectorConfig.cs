@@ -58,6 +58,7 @@ namespace SM.Services.IoC
             services.AddScoped<IDeliveryPersonRepository, DeliveryPersonRepository>();
             services.AddScoped<IMotorcycleRepository, MotorcycleRepository>();
             services.AddScoped<IAllocationRepository, AllocationRepository>();
+            services.AddScoped<IPlanRepository, PlanRepository>();
             services.AddTransient<SeedingRepository>();
             #endregion
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

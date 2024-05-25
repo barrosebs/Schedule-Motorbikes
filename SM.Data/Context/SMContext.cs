@@ -16,6 +16,7 @@ namespace SM.Data.Context
         public DbSet<DeliveryPersonModel> DeliveryPeople { get; set; }
         public DbSet<MotorcycleModel> Motorcycles { get; set; }
         public DbSet<AllocationModel> Allocations { get; set; }
+        public DbSet<PlanModel> Plans { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,6 +33,8 @@ namespace SM.Data.Context
             modelBuilder.Entity<DeliveryPersonModel>()
             .HasIndex(p => p.NumberCNH)
             .IsUnique();
+
+
         }
     }
 }
