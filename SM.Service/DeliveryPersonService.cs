@@ -12,5 +12,10 @@ namespace SM.Service
         {
             _repository = Repository;
         }
+
+        public Task<DeliveryPersonModel> GetDeliveryPersonByEmail(string email)
+        {
+          return _repository.GetDeliveryPersonByEmail(email);
+        }
     }
 }

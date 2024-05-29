@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SM.Domain.Models;
 using SW.Web.Models;
 using System.Diagnostics;
 
@@ -8,10 +10,13 @@ namespace SW.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly UserManager<UserModel> _userManager;
+        public HomeController(ILogger<HomeController> logger, UserManager<UserModel> userManager, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
+            _userManager = userManager;
+            _httpContextAccessor = httpContextAccessor;
         }
         [HttpGet("[controller]/Index")]
         public IActionResult Index()
@@ -27,7 +32,9 @@ namespace SW.Web.Controllers
         [HttpGet("[controller]/Logged")]
         public IActionResult Logged()
         {
-            return View();
+            var Claims = _httpContextAccessor.HttpContext.User;
+            var userLogado = _userManager.GetUserAsync(Claims).GetAwaiter().GetResult();
+            return View(userLogado.HasAllocation);
         }
     }
 }

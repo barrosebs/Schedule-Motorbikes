@@ -1,4 +1,5 @@
-﻿@using SM.Domain.Model
+﻿@using SM.Domain.Enum
+@using SM.Domain.Model
 @model AllocationVM
 
 @{
@@ -7,12 +8,13 @@
 <partial name="_MensagemPartial" />
 <main>
     <section class="" style="margin-top:10%;">
-        @using (Html.BeginForm("Create", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("Create", "Allocation", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
-            
+          <input type="hidden" asp-for="@Model.DeliveryPerson">
+
         <div class="form-group col-sm-8 col-lg-4 col-xl-4">
-                <label asp-for="@Model.Motorcycle"></label><i class="obrigatorio">*</i>
-                <select asp-for="Motorcycle" class="form-select" aria-label="Select">
+                <label asp-for="@Model.MotorcycleID"></label><i class="obrigatorio">*</i>
+                <select asp-for="@Model.MotorcycleID" class="form-select" aria-label="Select">
                 <option selected disabled>Selecione sua moto</option>
                     @foreach (var item in ViewBag.ListMotorcycle)
                 {
@@ -21,20 +23,37 @@
             </select>
         </div>
             <div class="form-group col-sm-8 col-lg-4 col-xl-4">
-                <label asp-for="@Model.Plan"></label><i class="obrigatorio">*</i>
-                <select asp-for="Plan" class="form-select" aria-label="Select">
+                <label asp-for="@Model.PlanID"></label><i class="obrigatorio">*</i>
+                <select asp-for="@Model.EPlan" class="form-select" aria-label="Select">
                     <option selected disabled>Selecione o plano</option>
                     @foreach (var item in ViewBag.AllocationPlano)
                     {
-                        <option value="@item.Id">@item.ToString()</option>
+                        <option value="@item.EPlan">@item.ToString()</option>
                     }
                 </select>
             </div>
+            <div class="form-group col-sm-8 col-lg-4 col-xl-6">
+
+                <label asp-for="@Model.StartDateToAllocation" class="col-4 col-form-label">Início<i class="obrigatorio">*</i></label>
+                <div class="col-5">
+                    <div class="input-group date" id="datepicker">
+                        <input type="date" class="form-control" asp-for="@Model.StartDateToAllocation" />
+      
+                    </div>
+                </div>
+                <label asp-for="@Model.EndDateToAllocation" class="col-4 col-form-label">Previsão de Entrega<i class="obrigatorio">*</i></label>
+                <div class="col-5">
+                    <div class="input-group date" id="datepicker">
+                        <input type="date" class="form-control" asp-for="@Model.EndDateToAllocation" />
+
+                    </div>
+                </div>
+            </div>
+            <div class="mt-3">
+                <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+                <button class="btn btn-primary" type="submit">Salvar</button>
+            </div>
         }
-       ok Listar motos de motos
-        Lista Tipo de Plano
-        com seus valores
-        verificar as motos disponíveis
 
     </section>
 </main>

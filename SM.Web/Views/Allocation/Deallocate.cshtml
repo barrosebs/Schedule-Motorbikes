@@ -1,0 +1,63 @@
+@using SM.Domain.Model
+@model AllocationVM
+@{
+    ViewBag.Subtitulo = "Alocação";
+}
+<partial name="_MensagemPartial" />
+<main>
+    <section class="" style="margin-top:10%;">
+        @using (Html.BeginForm("Deallocate", "Allocation", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <input type="hidden" asp-for="@Model.DeliveryPerson">
+
+            <div class="form-group col-sm-8 col-lg-4 col-xl-4">
+                <label asp-for="@Model.Motorcycle.Model"></label>
+                <input asp-for="@Model.Motorcycle.Model" class="form-control" autofocus autocomplete="off" disabled>
+            </div>
+            <div class="form-group col-sm-8 col-lg-4 col-xl-4">
+                <label asp-for="@Model.Plan">Plano</label>
+                <input asp-for="@Model.Plan" class="form-control" autofocus autocomplete="off" disabled>
+
+            </div>
+            <div class="form-group col-sm-8 col-lg-4 col-xl-6">
+
+                <label asp-for="@Model.StartDateToAllocation" class="col-4 col-form-label">Início</label>
+                <div class="col-5">
+                    <div class="input-group date" id="datepicker">
+                        <input asp-for="@Model.StartDateToAllocation" class="form-control" autofocus autocomplete="off" disabled>
+                    </div>
+                </div>
+                <label asp-for="@Model.EndDateToAllocation" class="col-4 col-form-label">Previsão de Entrega</label>
+                <div class="col-5">
+                    <div class="input-group date" id="datepicker">
+                        <input asp-for="@Model.EndDateToAllocation" class="form-control" autofocus autocomplete="off" disabled>
+                    </div>
+                </div>
+                <label asp-for="@Model.EndDateToAllocation" class="col-4 col-form-label">Data de Entrega<i class="obrigatorio">*</i></label>
+                <div class="col-5">
+                    <div class="input-group date" id="datepicker">
+                        <input type="date" class="form-control" asp-for="@Model.DeliveryDate" />
+                        <span asp-validation-for="@Model.DeliveryDate" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="mt-3">
+                <a asp-action="Logged" asp-controller="Home" class="btn btn-outline-secondary">Cancelar</a>
+                <button class="btn btn-outline-primary" type="submit">Fechar Entrega</button>
+                <button asp-action="CheckAmountToPay" type="submit" class="btn btn-warning">Consulta valor de entrega</button>
+            </div>
+            @{
+                if (@Model.ValueDay > 0)
+                {
+                    <div class="alert alert-success mt-5" role="alert">
+                        <label class="col-12 col-form-label">@Model.ToString()</label>
+                    </div>
+                }
+            }
+
+        }
+
+    </section>
+</main>
+

@@ -3,5 +3,7 @@ using SM.Domain.Model;
 
 namespace SM.Domain.Interface.IRepositories
 {
-    public interface IAllocationRepository : IRepositoryBase<AllocationModel> { }
+    public interface IAllocationRepository : IRepositoryBase<AllocationModel> { 
+    Task<AllocationModel> GetAllocationAsync();
+    }
 }

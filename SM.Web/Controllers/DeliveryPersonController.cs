@@ -18,11 +18,11 @@ namespace SM.Web.Controllers
     [Route("[controller]")]
     public class DeliveryPersonController : Controller
     {
-        private readonly IServiceBase<DeliveryPersonModel> _deliveryPerson;
+        private readonly IDeliveryPersonService _deliveryPerson;
         private readonly IMapper _mapper;
         private readonly UserManager<UserModel> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public DeliveryPersonController(IServiceBase<DeliveryPersonModel> deliveryPerson, IMapper mapper, UserManager<UserModel> userManager, IHttpContextAccessor httpContextAccessor)
+        public DeliveryPersonController(IDeliveryPersonService deliveryPerson, IMapper mapper, UserManager<UserModel> userManager, IHttpContextAccessor httpContextAccessor)
         {
             _deliveryPerson = deliveryPerson;
             _mapper = mapper;

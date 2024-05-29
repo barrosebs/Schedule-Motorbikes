@@ -9,6 +9,7 @@ using SM.Data.Context;
 using SM.Data.Repositories;
 using SM.Domain.Interface.IRepositories;
 using SM.Domain.Interface.IService;
+using SM.Domain.Interface.IServices;
 using SM.Domain.Model;
 using SM.Domain.Models;
 using SM.Service;
@@ -48,10 +49,10 @@ namespace SM.Services.IoC
                 .AddEntityFrameworkStores<SMContext>()
                 .AddDefaultTokenProviders();
             #region Services
-            services.AddScoped<IServiceBase<DeliveryPersonModel>, DeliveryPersonService>();
+            services.AddScoped<IDeliveryPersonService, DeliveryPersonService>();
             services.AddScoped<IServiceBase<MotorcycleModel>, MotorcycleService>();
-            services.AddScoped<IServiceBase<AllocationModel>, AllocationService>();
-            services.AddScoped<IServiceBase<PlanModel>, PlanService>();
+            services.AddScoped<IAllocationService, AllocationService>();
+            services.AddScoped<IPlanService, PlanService>();
             #endregion
 
             #region Repository

@@ -7,6 +7,8 @@
 @if (Context.User.Identity.IsAuthenticated)
 {
     var userModel = await _userManager.GetUserAsync(Context.User);
+    <ul>
+
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
             Olá, <b>@userModel.FullName.FirstWord()</b>
@@ -27,6 +29,7 @@
             </li>
         </ul>
     </li>
+    </ul>
 }
 else
 {

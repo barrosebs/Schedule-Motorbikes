@@ -16,10 +16,9 @@ namespace SM.Data.Repositories
 
         public void Seed()
         {
-            if (_Context.Plans.Any() || _Context.Plans.Any())
-            {
+            if (_Context.Plans.Any())
                 return;//Verica se o banco foi populado
-            }
+            
             PlanModel FirstPlan = new PlanModel
             {
                 EPlan = EAllocationPlan.Basic,

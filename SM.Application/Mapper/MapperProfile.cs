@@ -16,6 +16,7 @@ namespace SM.Application.Mapper
             CreateMap<DeliveryPersonVM, UserDeliveryPersonVM>().ReverseMap();
             CreateMap<DeliveryPersonModel, DeliveryPersonVM>().ReverseMap();
             CreateMap<MotorcycleModel, MotorcycleVM>().ReverseMap();
+            CreateMap<AllocationModel, AllocationVM>().ReverseMap();
           
             //exemplo
             //CreateMap<Group, GroupViewModel>().ReverseMap()

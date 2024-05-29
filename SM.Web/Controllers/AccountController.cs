@@ -21,13 +21,13 @@ namespace SM.Web.Controllers
         private readonly UserManager<UserModel> _userManager;
         private readonly SignInManager<UserModel> _signInManager;
         private readonly IMapper _mapper;
-        private readonly IServiceBase<DeliveryPersonModel> _deliveryPerson;
+        private readonly IDeliveryPersonService _deliveryPerson;
 
         public AccountController(
                                     UserManager<UserModel> userManager,
                                     SignInManager<UserModel> signInManager,
                                     IMapper mapper,
-                                    IServiceBase<DeliveryPersonModel> deliveryPerson
+                                    IDeliveryPersonService deliveryPerson
                                 )
         {
             _userManager = userManager;
@@ -136,7 +136,7 @@ namespace SM.Web.Controllers
         {
             @ViewData["Title"] = "Criar senha";
 
-            var isUser = _userManager.FindByEmailAsync(email).GetAwaiter().GetResult(); ;
+            var isUser = _userManager.FindByEmailAsync(email).GetAwaiter().GetResult();
             if (email == null)
                 throw new ApplicationException("Email é obrigatório!");
             

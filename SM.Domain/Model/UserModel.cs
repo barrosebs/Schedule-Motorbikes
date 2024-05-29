@@ -15,5 +15,6 @@ namespace SM.Domain.Models
         {
             get => (int)Math.Floor((DateTime.Now - DateOfBirth).TotalDays / 365.25);
         }
+        public bool HasAllocation { get; set; } = false;
     }
 }

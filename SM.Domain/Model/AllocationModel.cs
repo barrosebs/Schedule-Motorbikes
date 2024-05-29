@@ -1,6 +1,5 @@
 ﻿
 using SM.Domain.Enum;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SM.Domain.Model
@@ -17,6 +16,7 @@ namespace SM.Domain.Model
         public required MotorcycleModel Motorcycle { get; set; }
         [ForeignKey(nameof(MotorcycleID))]
         public Guid MotorcycleID { get; set; }
+        public bool IsAllocation { get; set; } = false;
 
     }
 }

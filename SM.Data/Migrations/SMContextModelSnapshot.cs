@@ -175,6 +175,9 @@ namespace SM.Data.Migrations
                     b.Property<DateTime>("EndDateToAllocation")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<bool>("IsAllocation")
+                        .HasColumnType("boolean");
+
                     b.Property<Guid>("MotorcycleID")
                         .HasColumnType("uuid");
 
@@ -334,6 +337,9 @@ namespace SM.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(120)
                         .HasColumnType("character varying(120)");
+
+                    b.Property<bool>("HasAllocation")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");

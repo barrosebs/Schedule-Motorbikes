@@ -3,5 +3,7 @@ using SM.Domain.Model;
 
 namespace SM.Domain.Interface.IRepositories
 {
-    public interface IDeliveryPersonRepository : IRepositoryBase<DeliveryPersonModel> { }
+    public interface IDeliveryPersonRepository : IRepositoryBase<DeliveryPersonModel> {
+        Task<DeliveryPersonModel> GetDeliveryPersonByEmail(string email);
+    }
 }
