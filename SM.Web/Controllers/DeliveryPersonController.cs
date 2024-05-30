@@ -59,9 +59,9 @@ namespace SM.Web.Controllers
                     ViewBag.TypeCNH = _typeCNH;
 
                     IFormFile file = viewModel.ImageCNH;
-                   string extension = Path.GetExtension(file.FileName);
+                    string extension = Path.GetExtension(file.FileName);
                     if (extension != ".png" || extension == ".bmp")
-                    throw new ApplicationException("Arquivo não é válido!");
+                        throw new ApplicationException("Arquivo não é válido!");
 
                     var Claims = _httpContextAccessor.HttpContext?.User;
                     var userId = _userManager.GetUserId(Claims);
@@ -71,12 +71,13 @@ namespace SM.Web.Controllers
                     model.UserId = int.Parse(userId);
                     model.NumberCNPJ = ToolsHelpers.RemoveMaskCNPJ(viewModel.NumberCNPJ);
                     await _deliveryPerson.CreateAsync(model);
-                    
+
                     this.ShowMessage("Dados do motoboy salvo com sucesso.");
                     return RedirectToAction("Index", "DeliveryPerson");
-                }catch (DbUpdateException ex) when(ex.InnerException is Npgsql.PostgresException postgresEx && postgresEx.SqlState == "23505")
+                }
+                catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException postgresEx && postgresEx.SqlState == "23505")
                 {
-                    if(postgresEx.ConstraintName == "IX_DeliveryPeople_NumberCNPJ")
+                    if (postgresEx.ConstraintName == "IX_DeliveryPeople_NumberCNPJ")
                         ModelState.AddModelError("NumberCNPJ", "O número de CNPJ já está em uso.");
                     if (postgresEx.ConstraintName == "IX_DeliveryPeople_NumberCNH")
                         ModelState.AddModelError("NumberCNH", "O número de CNH já está em uso.");
@@ -108,21 +109,35 @@ namespace SM.Web.Controllers
         [HttpGet("Delete/{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            if (id == Guid.Empty)
+            try
             {
-                this.ShowMessage("Motoboy não informado.", true);
-                return RedirectToAction(nameof(Index));
-            }
-            DeliveryPersonModel? DeliveryPersonModal = await _deliveryPerson.GetByIdAsync(id);
-            if (DeliveryPersonModal == null)
+                if (id == Guid.Empty)
+                {
+                    this.ShowMessage("Motoboy não informado.", true);
+                    return RedirectToAction(nameof(Index));
+                }
+                DeliveryPersonModel? DeliveryPersonModal = await _deliveryPerson.GetByIdAsync(id);
+                if (DeliveryPersonModal == null)
+                {
+                    this.ShowMessage("Entregador não encontrado.", true);
+                    return RedirectToAction(nameof(Index));
+                }
+
+                await _deliveryPerson.RemoveAsync(DeliveryPersonModal);
+                this.ShowMessage("Entregador Deletado com sucesso.", false);
+                return RedirectToAction("Index", "DeliveryPerson");
+            }                
+            catch (InvalidOperationException ex)
             {
-                this.ShowMessage("Motoboy não encontrado.", true);
-                return RedirectToAction(nameof(Index));
+                this.ShowMessage(ex.Message, true);
+                return RedirectToAction("Index", "DeliveryPerson");
+    }
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
-            
-            await _deliveryPerson.RemoveAsync(DeliveryPersonModal);
-            this.ShowMessage("Motoboy Deletado.", false);
-            return RedirectToAction("Index", "DeliveryPerson");
+
         }
 
         /// <summary>

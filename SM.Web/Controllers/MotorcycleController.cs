@@ -119,21 +119,36 @@ namespace SM.Web.Controllers
         [HttpGet("Delete/{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            if (id == Guid.Empty)
+            try
             {
-                this.ShowMessage("Moto não informado.", true);
-                return RedirectToAction(nameof(Index));
+                if (id == Guid.Empty)
+                {
+                    this.ShowMessage("Moto não informado.", true);
+                    return RedirectToAction(nameof(Index));
+                }
+                MotorcycleModel? model = await _motorcycle.GetByIdAsync(id);
+                if (model == null)
+                {
+                    this.ShowMessage("Motocicleta não encontrado.", true);
+                    return RedirectToAction(nameof(Index));
+                }
+
+                await _motorcycle.RemoveAsync(model);
+                this.ShowMessage("Motocicleta Deletado com sucesso.", false);
+                return RedirectToAction("Index", "Motorcycle");
             }
-            MotorcycleModel? model = await _motorcycle.GetByIdAsync(id);
-            if (model == null)
+            catch (InvalidOperationException ex)
             {
-                this.ShowMessage("Motoboy não encontrado.", true);
-                return RedirectToAction(nameof(Index));
+                this.ShowMessage(ex.Message, true);
+                return RedirectToAction("Index", "Motorcycle");
+            }
+            
+            catch (Exception ex)
+            {
+
+                throw ex;
             }
 
-            await _motorcycle.RemoveAsync(model);
-            this.ShowMessage("Motoboy Deletado.", false);
-            return RedirectToAction("Index", "Motorcycle");
         }
     }
 }
