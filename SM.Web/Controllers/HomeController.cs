@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SM.Domain.Models;
@@ -6,6 +7,7 @@ using System.Diagnostics;
 
 namespace SW.Web.Controllers
 {
+    [Authorize]
     [ApiController]
     public class HomeController : Controller
     {

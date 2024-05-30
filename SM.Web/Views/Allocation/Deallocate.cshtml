@@ -47,8 +47,8 @@
                 <button class="btn btn-outline-primary" type="submit">Fechar Entrega</button>
                 <button asp-action="CheckAmountToPay" type="submit" class="btn btn-warning">Consulta valor de entrega</button>
             </div>
-            @{
-                if (@Model.ValueDay > 0)
+            {
+                if (@Model.Sum > 0)
                 {
                     <div class="alert alert-success mt-5" role="alert">
                         <label class="col-12 col-form-label">@Model.ToString()</label>

@@ -40,14 +40,18 @@
                         <input type="date" class="form-control" asp-for="@Model.StartDateToAllocation" />
       
                     </div>
+                <span asp-validation-for="@Model.StartDateToAllocation" class="text-danger"></span>
                 </div>
+
                 <label asp-for="@Model.EndDateToAllocation" class="col-4 col-form-label">Previsão de Entrega<i class="obrigatorio">*</i></label>
                 <div class="col-5">
                     <div class="input-group date" id="datepicker">
                         <input type="date" class="form-control" asp-for="@Model.EndDateToAllocation" />
 
                     </div>
+                <span asp-validation-for="@Model.EndDateToAllocation" class="text-danger"></span>
                 </div>
+
             </div>
             <div class="mt-3">
                 <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>

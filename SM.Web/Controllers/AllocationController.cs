@@ -85,12 +85,13 @@ namespace SM.Web.Controllers
                     string endDate = modelView.EndDateToAllocation.Ticks.ToString();
                     if (startDate != endDate)
                     {
-                        this.ShowMessage($"Data prevista de entrega incorreta. A Data correta conforme o plano escolhido:{modelView.StartDateToAllocation.AddDays(planModel.LimitDayPlan + 1).ToString("D")}", true);
+                        this.ShowMessage($"ERRO: Data prevista conforme o plano escolhido: {modelView.StartDateToAllocation.AddDays(planModel.LimitDayPlan + 1).ToString("D")}", true);
                         return View();
                     }
                     modelView.DeliveryPerson = deliveryPerson;
                     AllocationModel model = _mapper.Map<AllocationModel>(modelView);
                     model.IsAllocation = true;
+                    model.StartDateToAllocation = model.StartDateToAllocation.AddDays(1);
                     await _allocationService.CreateAsync(model);
                     
                     userLogIn.HasAllocation = true;
@@ -104,29 +105,9 @@ namespace SM.Web.Controllers
                     this.ShowMessage(ModelState.ValidationState.ToString(), true);
                     return View(modelView);
                 }
-                throw new ValidationException("Um ou mais erros de validação ocorreram.");
-            }
-            catch (ValidationException ex)
-            {
-                var errors = ModelState.Where(x => x.Value.Errors.Count > 0)
-                                       .ToDictionary(
-                                            kvp => kvp.Key,
-                                            kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
-                                       );
-
-                var errorResponse = new
-                {
-                    title = "Erro de validação.",
-                    status = 400,
-                    errors = errors,
-                    traceId = HttpContext.TraceIdentifier
-                };
-
-                return BadRequest(errorResponse);
             }
             catch (Exception e)
             {
-
                 throw e;
             }
 
@@ -149,33 +130,89 @@ namespace SM.Web.Controllers
             return RedirectToAction("Logged","Home");
 
         }
+
+        [HttpPost("Deallocate")]
+        public IActionResult Deallocate([FromForm] AllocationVM viewModel)
+        {
+            try
+            {
+                var allocationActive = _allocationService.GetAllocationActiveAsync().GetAwaiter().GetResult();
+                var plan = _planService.GetPlanByPlanAsync(allocationActive.EPlan).GetAwaiter().GetResult();
+                if (allocationActive != null)
+                {
+                    allocationActive.DeliveryDate = viewModel.DeliveryDate;
+                    viewModel = _mapper.Map<AllocationVM>(allocationActive);
+                    viewModel.Plan = plan.ToString();
+                    viewModel = CalcDays(viewModel, plan);
+
+                }
+
+                allocationActive.AmountToPay = viewModel.Sum;
+                allocationActive.IsAllocation = false;
+                UserModel? userLogIn = GetUser();
+                userLogIn.HasAllocation = false;
+                if (userLogIn != null)
+                    _userManager.UpdateAsync(userLogIn);
+                _allocationService.UpdateAsync(allocationActive);
+
+                return Redirect("/Home/Logged");
+            }
+            catch (ValidationException ex)
+            {
+                this.ShowMessage(ex.Message, true);
+                return View("Deallocate", viewModel);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
         [HttpPost("CheckAmountToPay")]
         public IActionResult CheckAmountToPay([FromForm] AllocationVM viewModel)
         {
-            var allocationActive = _allocationService.GetAllocationActiveAsync().GetAwaiter().GetResult();
-            var plan = _planService.GetPlanByPlanAsync(allocationActive.EPlan).GetAwaiter().GetResult();
-            if (allocationActive != null)
+            try
             {
-                allocationActive.DeliveryDate = viewModel.DeliveryDate;
-                viewModel = _mapper.Map<AllocationVM>(allocationActive);
-                viewModel.Plan = plan.ToString();
-                viewModel = CalcDays(viewModel, allocationActive, plan);
+                var allocationActive = _allocationService.GetAllocationActiveAsync().GetAwaiter().GetResult();
+                var plan = _planService.GetPlanByPlanAsync(allocationActive.EPlan).GetAwaiter().GetResult();
+                if (allocationActive != null)
+                {
+                    allocationActive.DeliveryDate = viewModel.DeliveryDate;
+                    viewModel = _mapper.Map<AllocationVM>(allocationActive);
+                    viewModel.Plan = plan.ToString();
+                    viewModel= CalcDays(viewModel, plan);
+                }
+
+                return View("Deallocate", viewModel);
+            }
+            catch (ValidationException ex)
+            {
+                this.ShowMessage(ex.Message, true);
+                return View("Deallocate", viewModel);
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
 
-            return View("Deallocate", viewModel);
         }
         [NonAction]
-        private AllocationVM CalcDays(AllocationVM viewModel, AllocationModel? allocationActive, PlanModel plan)
+        public AllocationVM CalcDays(AllocationVM viewModel, PlanModel plan)
         {
-            DateTime startDate = allocationActive.StartDateToAllocation.AddDays(1);
+            if(viewModel.DeliveryDate <= viewModel.StartDateToAllocation)
+                throw new ValidationException("Data de ENTREGA não pode ser menor/igual a data de INíCIO");
+
+            DateTime startDate = viewModel.StartDateToAllocation;
             TimeSpan usedDays = viewModel.DeliveryDate - startDate;
             decimal remainingDays =(decimal)plan.LimitDayPlan - (decimal)usedDays.TotalDays;
             viewModel.UsedDays = usedDays.Days;
              decimal resultPlan = CalcToPlan(viewModel, plan, remainingDays);
-            if (usedDays.TotalDays < 7)
+            if (usedDays.TotalDays < plan.LimitDayPlan)
             {
                 viewModel.Sum = (decimal)usedDays.TotalDays * plan.Value + resultPlan;
-                viewModel.ValueDay += plan.Value * (decimal)viewModel.UsedDays;
+                viewModel.ValueDay = plan.Value * (decimal)viewModel.UsedDays;
 
             }
             else if (plan.LimitDayPlan == usedDays.TotalDays)
@@ -201,6 +238,10 @@ namespace SM.Web.Controllers
 
             if (viewModel.EPlan == EAllocationPlan.Standard)
                 viewModel.DailyRate = 0.40m;
+            
+            //Não vi na especificação a taxa referente a outros planos
+            if (viewModel.EPlan != EAllocationPlan.Standard && viewModel.EPlan != EAllocationPlan.Basic)
+                viewModel.DailyRate = 0;
             
             decimal remainingDaysTotalWithPenalty = (decimal)remainingDays * plan.Value * (viewModel.DailyRate);
             viewModel.Sum = viewModel.ValueDay + remainingDaysTotalWithPenalty;

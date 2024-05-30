@@ -11,6 +11,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SM.Web.Helpers;
 using SM.Domain.Interface.IService;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SM.Web.Controllers
 {
@@ -76,7 +77,6 @@ namespace SM.Web.Controllers
                 return View(login);
             }
         }
-
         [HttpGet("Create")]
         public IActionResult Create()
         {
@@ -175,7 +175,13 @@ namespace SM.Web.Controllers
                 return View(viewModel);
             }
         }
+        [HttpGet("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
 
+            return RedirectToAction("Index", "Home");
+        }
         [NonAction]
         public async Task<string> CreateUserAsync(
             UserDeliveryPersonVM viewModel)

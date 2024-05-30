@@ -17,6 +17,6 @@ namespace SM.Domain.Model
         [ForeignKey(nameof(MotorcycleID))]
         public Guid MotorcycleID { get; set; }
         public bool IsAllocation { get; set; } = false;
-
+        public decimal AmountToPay { get; set; }
     }
 }
