@@ -71,7 +71,7 @@ namespace SM.Services.IoC
                 options.ExpireTimeSpan = TimeSpan.FromHours(4); //14 dias
                 options.LoginPath = "/Account/Login"; // /Account/Login
                 options.LogoutPath = "/Home/Principal";  // /Account/Logout
-                options.AccessDeniedPath = "/User/AcessoRestrito"; // /Account/AccessDenied
+                options.AccessDeniedPath = "/Account/RestrictedAccess"; // /Account/AccessDenied
                 options.SlidingExpiration = true; //true - gera um novo cookie a cada requisição se o cookie estiver com menos de meia vida
                 options.ReturnUrlParameter = "returnUrl"; //returnUrl
             });

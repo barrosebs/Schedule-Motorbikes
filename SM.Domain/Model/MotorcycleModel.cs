@@ -11,7 +11,9 @@ namespace SM.Domain.Model
         public required string LicensePlate { get; set; }
         [MaxLength(60)]
         public required string Model { get; set; }
-
+        public DateTime? DateDelivery { get; set; }
+        public Guid? DeliveryPersonId { get; set; }
+        public bool IsDelivered { get; set; } = false;
         public override string ToString()
         {
             return $"Placa: {LicensePlate} - Modelo {Model} - Ano: {Year}";

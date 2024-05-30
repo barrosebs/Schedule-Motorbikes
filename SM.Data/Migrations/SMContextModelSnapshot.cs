@@ -261,6 +261,15 @@ namespace SM.Data.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<DateTime?>("DateDelivery")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("DeliveryPersonId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDelivered")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("LicensePlate")
                         .IsRequired()
                         .HasColumnType("char(7)");

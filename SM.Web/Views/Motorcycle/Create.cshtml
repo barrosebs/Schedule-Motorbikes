@@ -21,19 +21,19 @@
     <input type="hidden" asp-for="@Model.Id">
     <div class="form-group col-sm-8 col-lg-4 col-xl-4">
         <label asp-for="@Model.LicensePlate"></label><i class="obrigatorio">*</i>
-        <input asp-for="@Model.LicensePlate" class="form-control" autofocus autocomplete="off" maxlength="7">
+        <input asp-for="@Model.LicensePlate" class="form-control" autofocus autocomplete="off" maxlength="7" placeholder="XXX2222">
         <span asp-validation-for="@Model.LicensePlate" class="text-danger"></span>
     </div>
     <div class="w-100"></div>
     <div class="form-group col-sm-6 col-lg-3 col-xl-4">
         <label asp-for="@Model.Model"></label><i class="obrigatorio">*</i>
-        <input asp-for="@Model.Model" class="form-control" autocomplete="off" maxlength="60">
+        <input asp-for="@Model.Model" class="form-control" autocomplete="off" maxlength="60" placeholder="CB500r 2024">
         <span asp-validation-for="@Model.Model" class="text-danger"></span>
     </div>
     <div class="w-100"></div>
     <div class="form-group col-sm-6 col-lg-3 col-xl-4">
         <label asp-for="@Model.Year"></label><i class="obrigatorio">*</i>
-        <input asp-for="@Model.Year" class="form-control" autocomplete="off" maxlength="4">
+        <input asp-for="@Model.Year" class="form-control" autocomplete="off" maxlength="4" placeholder="2024">
         <span asp-validation-for="@Model.Year" class="text-danger"></span>
     </div>
     <div class="mt-3">

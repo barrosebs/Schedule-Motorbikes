@@ -12,5 +12,8 @@ namespace SM.Domain.Model
         [Display(Name = "MODELO")]
         public required string Model { get; set; }
         public DateTime DateCreated { get; set; }
+        public DateTime? DateDelivery { get; set; }
+        public Guid? DeliveryPersonId { get; set; }
+        public bool IsDelivered { get; set; } = false;
     }
 }

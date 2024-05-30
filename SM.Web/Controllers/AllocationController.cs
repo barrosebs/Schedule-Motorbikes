@@ -10,7 +10,6 @@ using SM.Domain.Model;
 using SM.Domain.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SM.Web.Controllers
 {
@@ -47,7 +46,7 @@ namespace SM.Web.Controllers
         [HttpGet("Create")]
         public async Task<IActionResult> Create()
         {
-            var listMotorcycle = await _motorcycleService.GetAllAsync();
+            var listMotorcycle = _motorcycleService.GetAllAsync().GetAwaiter().GetResult().Where(m => m.IsDelivered.Equals(false));
             var listPlans = await _planService.GetAllAsync();
             listPlans = listPlans.OrderBy(x => x.LimitDayPlan);
             ViewBag.AllocationPlano = listPlans;
@@ -68,7 +67,7 @@ namespace SM.Web.Controllers
                     var listMotorcycle = await _motorcycleService.GetAllAsync();
                     var listPlans = await _planService.GetAllAsync();
                     ViewBag.AllocationPlano = listPlans;
-                    ViewBag.ListMotorcycle = listMotorcycle;
+                    ViewBag.ListMotorcycle = listMotorcycle.Where(m=>m.IsDelivered.Equals(false));
 
                     if (deliveryPerson.TypeCNH == ETypeCNH.B)
                     {
@@ -93,7 +92,6 @@ namespace SM.Web.Controllers
                     model.IsAllocation = true;
                     model.StartDateToAllocation = model.StartDateToAllocation.AddDays(1);
                     await _allocationService.CreateAsync(model);
-                    
                     userLogIn.HasAllocation = true;
                     await _userManager.UpdateAsync(userLogIn);
                     
@@ -117,9 +115,9 @@ namespace SM.Web.Controllers
         public IActionResult Deallocate()
         {
             var allocationActive = _allocationService.GetAllocationActiveAsync().GetAwaiter().GetResult();
-            var plan = _planService.GetPlanByPlanAsync(allocationActive.EPlan).GetAwaiter().GetResult();
             if (allocationActive != null)
             {
+                var plan = _planService.GetPlanByPlanAsync(allocationActive.EPlan).GetAwaiter().GetResult();
                 AllocationVM viewModel = _mapper.Map<AllocationVM>(allocationActive);
                 viewModel.Plan = plan.ToString();
                 viewModel.DeliveryDate = DateTime.Now;
@@ -155,7 +153,7 @@ namespace SM.Web.Controllers
                     _userManager.UpdateAsync(userLogIn);
                 _allocationService.UpdateAsync(allocationActive);
 
-                return Redirect("/Home/Logged");
+                return View("Payment");
             }
             catch (ValidationException ex)
             {
@@ -167,6 +165,15 @@ namespace SM.Web.Controllers
 
                 throw ex;
             }
+
+        }
+        [HttpGet("Payment")]
+        public IActionResult Payment()
+        {
+            @ViewData["Title"] = "Pagamento";
+            this.ShowMessage("Registro de pagamento, confirme no  botão abaixo!", true);
+
+            return RedirectToAction("Logged", "Home");
 
         }
 

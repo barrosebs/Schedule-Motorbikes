@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SM.Web.Controllers
 {
-    [Authorize(Roles = nameof(ERole.Administrator))]
+    [Authorize]
     [Route("[controller]")]
     public class DeliveryPersonController : Controller
     {
@@ -126,12 +126,12 @@ namespace SM.Web.Controllers
                 await _deliveryPerson.RemoveAsync(DeliveryPersonModal);
                 this.ShowMessage("Entregador Deletado com sucesso.", false);
                 return RedirectToAction("Index", "DeliveryPerson");
-            }                
+            }
             catch (InvalidOperationException ex)
             {
                 this.ShowMessage(ex.Message, true);
                 return RedirectToAction("Index", "DeliveryPerson");
-    }
+            }
             catch (Exception ex)
             {
 
@@ -139,19 +139,50 @@ namespace SM.Web.Controllers
             }
 
         }
-
-        /// <summary>
-        /// Por padrão, o protocolo HTTP esta usando o method POST e GET, com isso não pude fazer uso de outros verbos como PUT e DELETE.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpPost("Update/{id}")]
-        public async Task<IActionResult> Update([FromForm] DeliveryPersonVM viewModel)
+        [Authorize(Roles = nameof(ERole.DeliveryPerson))]
+        [HttpGet("Update/{email}")]
+        public async Task<IActionResult> UpdateCNH(string email)
         {
             try
             {
-                this.ShowMessage("Motoboy Deletado.", false);
+                DeliveryPersonModel model = await _deliveryPerson.GetDeliveryPersonByEmail(email);
+                if (model != null)
+                {
+                    DeliveryPersonVM viewModel = _mapper.Map<DeliveryPersonVM>(model);
+                    var typeCNH = Enum.GetValues(typeof(ETypeCNH));
+                    List<SelectListItem> _typeCNH = EnumExtensios.GetDescriptionEnum(typeCNH);
+                    ViewBag.TypeCNH = _typeCNH;
+
+                    return View("Update",viewModel);
+
+                }
+                this.ShowMessage("Entregador não encontrado!.", false);
                 return View();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+
+        }
+        [Authorize(Roles = nameof(ERole.DeliveryPerson))]
+        [HttpPost("Update/{id}")]
+        public async Task<IActionResult> UpdateCNH([FromForm] DeliveryPersonVM viewModel)
+        {
+            try
+            {
+
+                DeliveryPersonModel model = await _deliveryPerson.GetByIdAsync(viewModel.Id);
+                var Claims = _httpContextAccessor.HttpContext?.User;
+                var userId = _userManager.GetUserId(Claims);
+                model.UrlImageCNH = ToolsHelpers.UploadFile(viewModel.ImageCNH, viewModel.NumberCNH);
+                model.UserId = int.Parse(userId);
+                await _deliveryPerson.UpdateAsync(model);
+
+                this.ShowMessage("CNH Atualizada.", false);
+                return RedirectToAction("Logged","Home");
             }
             catch (Exception ex)
             {

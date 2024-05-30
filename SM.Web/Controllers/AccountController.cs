@@ -231,5 +231,11 @@ namespace SM.Web.Controllers
             }
             return null;
         }
+        [HttpGet("RestrictedAccess")]
+        public IActionResult RestrictedAccess([FromQuery] string returnUrl)
+        {
+            return View(model: returnUrl);
+        }
+
     }
 }
