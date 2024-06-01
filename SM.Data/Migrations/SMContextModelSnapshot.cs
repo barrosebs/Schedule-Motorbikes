@@ -158,13 +158,15 @@ namespace SM.Data.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<decimal>("AmountToPay")
                         .HasColumnType("numeric");
 
                     b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("datecreated");
 
                     b.Property<DateTime>("DeliveryDate")
                         .HasColumnType("timestamp without time zone");
@@ -196,17 +198,19 @@ namespace SM.Data.Migrations
 
                     b.HasIndex("MotorcycleID");
 
-                    b.ToTable("Allocations");
+                    b.ToTable("allocation");
                 });
 
             modelBuilder.Entity("SM.Domain.Model.DeliveryPersonModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("datecreated");
 
                     b.Property<DateTime>("DateValidationCNH")
                         .HasColumnType("timestamp without time zone");
@@ -249,17 +253,19 @@ namespace SM.Data.Migrations
                     b.HasIndex("NumberCNPJ")
                         .IsUnique();
 
-                    b.ToTable("DeliveryPeople");
+                    b.ToTable("delivery-person");
                 });
 
             modelBuilder.Entity("SM.Domain.Model.MotorcycleModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("datecreated");
 
                     b.Property<DateTime?>("DateDelivery")
                         .HasColumnType("timestamp without time zone");
@@ -272,36 +278,41 @@ namespace SM.Data.Migrations
 
                     b.Property<string>("LicensePlate")
                         .IsRequired()
-                        .HasColumnType("char(7)");
+                        .HasColumnType("char(7)")
+                        .HasColumnName("license_plate");
 
                     b.Property<string>("Model")
                         .IsRequired()
                         .HasMaxLength(60)
-                        .HasColumnType("character varying(60)");
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("model");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Year")
                         .IsRequired()
-                        .HasColumnType("char(4)");
+                        .HasColumnType("char(4)")
+                        .HasColumnName("year");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LicensePlate")
                         .IsUnique();
 
-                    b.ToTable("Motorcycles");
+                    b.ToTable("motorcycle");
                 });
 
             modelBuilder.Entity("SM.Domain.Model.PlanModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp without time zone")
+                        .HasColumnName("datecreated");
 
                     b.Property<int>("EPlan")
                         .HasColumnType("integer");
@@ -317,7 +328,7 @@ namespace SM.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Plans");
+                    b.ToTable("plan");
                 });
 
             modelBuilder.Entity("SM.Domain.Models.UserModel", b =>
