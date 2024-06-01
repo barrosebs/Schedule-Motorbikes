@@ -13,6 +13,7 @@ using SM.Domain.Interface.IServices;
 using SM.Domain.Model;
 using SM.Domain.Models;
 using SM.Service;
+using SM.Service.RabbitMQ;
 using SM.Services.Extensions;
 
 namespace SM.Services.IoC
@@ -53,6 +54,7 @@ namespace SM.Services.IoC
             services.AddScoped<IServiceBase<MotorcycleModel>, MotorcycleService>();
             services.AddScoped<IAllocationService, AllocationService>();
             services.AddScoped<IPlanService, PlanService>();
+            services.AddTransient<IRabbitPublishService, RabbitPublishService>();
             #endregion
 
             #region Repository
@@ -61,7 +63,9 @@ namespace SM.Services.IoC
             services.AddScoped<IAllocationRepository, AllocationRepository>();
             services.AddScoped<IPlanRepository, PlanRepository>();
             services.AddTransient<SeedingRepository>();
+            services.AddTransient<IRabbitPublishRepository,RabbitPublishRepository>();
             #endregion
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddAutoMapperApi(typeof(MapperProfile));
             services.ConfigureApplicationCookie(options =>
