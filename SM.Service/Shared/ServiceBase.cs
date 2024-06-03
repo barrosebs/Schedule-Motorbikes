@@ -1,5 +1,5 @@
 ﻿using SM.Domain.Interface.IRepository;
-using SM.Domain.Interface.IService;
+using SM.Domain.Interface.IServices;
 using SM.Domain.Model;
 using System;
 

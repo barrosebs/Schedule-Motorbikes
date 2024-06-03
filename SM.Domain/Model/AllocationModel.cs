@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SM.Domain.Model
 {
+    [Table("allocation")]
     public class AllocationModel : ModelBase
     {
         public EAllocationPlan EPlan { get; set; }

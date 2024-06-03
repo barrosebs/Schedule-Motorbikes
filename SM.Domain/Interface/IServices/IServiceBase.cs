@@ -1,6 +1,6 @@
 ﻿using SM.Domain.Model;
 
-namespace SM.Domain.Interface.IService
+namespace SM.Domain.Interface.IServices
 {
     public interface IServiceBase<TEntity> : IDisposable where TEntity : ModelBase
     {

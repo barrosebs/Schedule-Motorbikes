@@ -1,7 +1,9 @@
 ﻿using SM.Domain.Enum;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SM.Domain.Model
 {
+    [Table("plan")]
     public class PlanModel : ModelBase
     {
         public int LimitDayPlan { get; set; }

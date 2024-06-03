@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SM.Domain.Model
 {
+    [Table("delivery-person")]
     public class DeliveryPersonModel : ModelBase
     {
         [MaxLength(120)]

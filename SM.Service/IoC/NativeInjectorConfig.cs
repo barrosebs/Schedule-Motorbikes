@@ -51,7 +51,7 @@ namespace SM.Services.IoC
                 .AddDefaultTokenProviders();
             #region Services
             services.AddScoped<IDeliveryPersonService, DeliveryPersonService>();
-            services.AddScoped<IServiceBase<MotorcycleModel>, MotorcycleService>();
+            services.AddScoped<IMotorcycleService, MotorcycleService>();
             services.AddScoped<IAllocationService, AllocationService>();
             services.AddScoped<IPlanService, PlanService>();
             services.AddTransient<IRabbitPublishService, RabbitPublishService>();

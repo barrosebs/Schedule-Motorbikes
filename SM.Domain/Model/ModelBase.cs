@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SM.Domain.Model
 {
@@ -10,7 +11,9 @@ namespace SM.Domain.Model
     {
         [Key]
         [ReadOnly(true)]
+        [Column(name:"id")]
         public Guid Id { get; set; } = Guid.NewGuid();
+        [Column(name:"datecreated")]
         public DateTime DateCreated { get; set; }
         public int? UserId { get; set; }
 

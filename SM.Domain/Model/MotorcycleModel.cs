@@ -3,13 +3,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SM.Domain.Model
 {
+    [Table("motorcycle")]
     public class MotorcycleModel : ModelBase
     {
-        [Column(TypeName = "char(4)")]
+        [Column(name: "year",TypeName = "char(4)")]
         public required string Year { get; set; }
-        [Column(TypeName = "char(7)")]
+        [Column(name: "license_plate", TypeName = "char(7)")]
         public required string LicensePlate { get; set; }
         [MaxLength(60)]
+        [Column(name: "model")]
         public required string Model { get; set; }
         public DateTime? DateDelivery { get; set; }
         public Guid? DeliveryPersonId { get; set; }

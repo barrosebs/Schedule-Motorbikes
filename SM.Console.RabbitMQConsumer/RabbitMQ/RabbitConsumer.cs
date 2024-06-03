@@ -55,6 +55,12 @@ public static class RabbitConsumer
                 if (motorcycle.Year == "2024")
                 {
                     await _motorcycleRepository.CreateAsync(motorcycle);
+
+                    channel.BasicAck(ea.DeliveryTag, false);  // Enviar confirmação
+                    Console.WriteLine($"Message processed: {message}");
+
+                    // Publicar confirmação de moto cadastrada
+                    PublishMotorcycleRegisteredEvent(channel, motorcycle);
                 }
             }
             catch (Exception ex)
@@ -69,5 +75,25 @@ public static class RabbitConsumer
 
         Console.WriteLine("Consumer started. Press [enter] to exit.");
         Console.ReadLine();
+    }
+
+
+    private static void PublishMotorcycleRegisteredEvent(IModel channel, MotorcycleModel motorcycle)
+    {
+        var exchangeName = "motorcycle_events";
+        var routingKey = "motorcycle.registered";
+
+        // Declare exchange
+        channel.ExchangeDeclare(exchange: exchangeName, type: "topic");
+
+        var message = JsonSerializer.Serialize(new { motorcycle.Id, motorcycle.Model, motorcycle.Year });
+        var body = Encoding.UTF8.GetBytes(message);
+
+        channel.BasicPublish(exchange: exchangeName,
+                             routingKey: routingKey,
+                             basicProperties: null,
+                             body: body);
+
+        Console.WriteLine($"Published motorcycle registered event: {message}");
     }
 }

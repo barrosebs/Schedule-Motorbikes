@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SM.Application.Extensions;
 using SM.Domain.Enum;
-using SM.Domain.Interface.IService;
+using SM.Domain.Interface.IServices;
 using SM.Domain.Model;
 using SM.Domain.Models;
 using SM.Web.Helpers;
@@ -17,16 +17,18 @@ namespace SM.Web.Controllers
     [Route("[controller]")]
     public class MotorcycleController : Controller
     {
-        private readonly IServiceBase<MotorcycleModel> _motorcycle;
+        private readonly IMotorcycleService _motorcycle;
         private readonly IMapper _mapper;
         private readonly UserManager<UserModel> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public MotorcycleController(IServiceBase<MotorcycleModel> motorcycle, IMapper mapper, UserManager<UserModel> userManager, IHttpContextAccessor httpContextAccessor)
+        private readonly IRabbitPublishService _rabbitPublishService;
+        public MotorcycleController(IMotorcycleService motorcycle, IMapper mapper, UserManager<UserModel> userManager, IHttpContextAccessor httpContextAccessor, IRabbitPublishService rabbitPublishService)
         {
             _motorcycle = motorcycle;
             _mapper = mapper;
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
+            _rabbitPublishService = rabbitPublishService;
         }
         public IActionResult Index()
         {
@@ -53,20 +55,28 @@ namespace SM.Web.Controllers
                 {
                     var Claims = _httpContextAccessor.HttpContext?.User;
                     var userId = _userManager.GetUserId(Claims);
-                    MotorcycleModel model = _mapper.Map<MotorcycleModel>(viewModel);
+                    MotorcycleModel model = await _motorcycle.GetMotorcycleByPlate(viewModel.LicensePlate);
+                    if(model != null)
+                    {
+                        this.ShowMessage($"Moto {model.LicensePlate} já esta cadastrada no sistema.",true);
+                        return View();
+                    }
+                    model = _mapper.Map<MotorcycleModel>(viewModel);
                     model.DateCreated = DateTime.Now;
                     model.UserId = int.Parse(userId);
-                    await _motorcycle.CreateAsync(model);
+                    //await _motorcycle.CreateAsync(model);
+
+                    _rabbitPublishService.Publish(model);
 
                     this.ShowMessage("Dados da moto salvo com sucesso.");
                     return RedirectToAction("Index", "Motorcycle");
                 }
-                catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException postgresEx && postgresEx.SqlState == "23505")
-                {
-                    if (postgresEx.ConstraintName == "IX_DeliveryPeople_LicensePlate")
-                        ModelState.AddModelError("LicensePlate", "A placa já está em uso.");
-                    return View();
-                }
+                //catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException postgresEx && postgresEx.SqlState == "23505")
+                //{
+                //    if (postgresEx.ConstraintName == "IX_DeliveryPeople_LicensePlate")
+                //        ModelState.AddModelError("LicensePlate", "A placa já está em uso.");
+                //    return View();
+                //}
                 catch (Exception ex)
                 {
                     this.ShowMessage("ERRO:" + ex.Message, true);
