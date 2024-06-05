@@ -8,6 +8,7 @@ using SM.Domain.Interface.IService;
 using SM.Domain.Interface.IServices;
 using SM.Domain.Model;
 using SM.Domain.Models;
+using SM.Web.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
@@ -141,7 +142,7 @@ namespace SM.Web.Controllers
                     allocationActive.DeliveryDate = viewModel.DeliveryDate;
                     viewModel = _mapper.Map<AllocationVM>(allocationActive);
                     viewModel.Plan = plan.ToString();
-                    viewModel = CalcDays(viewModel, plan);
+                    viewModel = ToolsHelpers.CalcDays(viewModel, plan);
 
                 }
 
@@ -189,7 +190,7 @@ namespace SM.Web.Controllers
                     allocationActive.DeliveryDate = viewModel.DeliveryDate;
                     viewModel = _mapper.Map<AllocationVM>(allocationActive);
                     viewModel.Plan = plan.ToString();
-                    viewModel= CalcDays(viewModel, plan);
+                    viewModel= ToolsHelpers.CalcDays(viewModel, plan);
                 }
 
                 return View("Deallocate", viewModel);
@@ -205,56 +206,6 @@ namespace SM.Web.Controllers
             }
 
         }
-        [NonAction]
-        public AllocationVM CalcDays(AllocationVM viewModel, PlanModel plan)
-        {
-            if(viewModel.DeliveryDate <= viewModel.StartDateToAllocation)
-                throw new ValidationException("Data de ENTREGA não pode ser menor/igual a data de INíCIO");
-
-            DateTime startDate = viewModel.StartDateToAllocation;
-            TimeSpan usedDays = viewModel.DeliveryDate - startDate;
-            decimal remainingDays =(decimal)plan.LimitDayPlan - (decimal)usedDays.TotalDays;
-            viewModel.UsedDays = usedDays.Days;
-             decimal resultPlan = CalcToPlan(viewModel, plan, remainingDays);
-            if (usedDays.TotalDays < plan.LimitDayPlan)
-            {
-                viewModel.Sum = (decimal)usedDays.TotalDays * plan.Value + resultPlan;
-                viewModel.ValueDay = plan.Value * (decimal)viewModel.UsedDays;
-
-            }
-            else if (plan.LimitDayPlan == usedDays.TotalDays)
-            {
-                viewModel.UsedDays = usedDays.TotalDays - plan.LimitDayPlan;
-                viewModel.Sum = plan.Value * plan.LimitDayPlan;
-                viewModel.ValueDay = plan.Value * plan.LimitDayPlan;
-            }
-            else
-            {
-                viewModel.UsedDays = usedDays.TotalDays;
-                viewModel.ValueDay = (decimal)viewModel.UsedDays * plan.Value;
-                viewModel.Sum = viewModel.ValueDay + 50;
-            }
-
-            return viewModel;
-        }
-
-        private static decimal CalcToPlan(AllocationVM viewModel, PlanModel plan, decimal remainingDays)
-        {
-            if (viewModel.EPlan == EAllocationPlan.Basic)
-                viewModel.DailyRate = 0.20m;
-
-            if (viewModel.EPlan == EAllocationPlan.Standard)
-                viewModel.DailyRate = 0.40m;
-            
-            //Não vi na especificação a taxa referente a outros planos
-            if (viewModel.EPlan != EAllocationPlan.Standard && viewModel.EPlan != EAllocationPlan.Basic)
-                viewModel.DailyRate = 0;
-            
-            decimal remainingDaysTotalWithPenalty = (decimal)remainingDays * plan.Value * (viewModel.DailyRate);
-            viewModel.Sum = viewModel.ValueDay + remainingDaysTotalWithPenalty;
-            return viewModel.Sum;
-        }
-
         [NonAction]
         private UserModel? GetUser()
         {
