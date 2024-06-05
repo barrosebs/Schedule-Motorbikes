@@ -1,8 +1,8 @@
 # Respondendo Desafio
 Passos para rodar o projeto
 gerar imagem no docker:
-	Postgress (User Id=postgres;Password=SMtest;Database=DBScheduleMotorbikes)
-	RabbitMQ (login e senha: admin e 123Aa@)
+	- Postgress (User Id=postgres;Password=SMtest;Database=DBScheduleMotorbikes)
+	- RabbitMQ (login e senha: admin e 123Aa@)
 	
 Após gerar as imagens,será necessário rodar o commando de migration com visual studio
 - Add-migration initial
