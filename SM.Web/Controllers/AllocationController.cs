@@ -14,7 +14,7 @@ using System.Security.Claims;
 
 namespace SM.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = nameof(ERole.DeliveryPerson))]
     [ApiController]
     [Route("[controller]")]
     public class AllocationController : Controller

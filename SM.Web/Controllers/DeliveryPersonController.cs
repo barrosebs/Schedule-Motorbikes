@@ -9,13 +9,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using SM.Domain.Models;
 using SM.Web.Helpers;
-using System.IO.Abstractions;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 
 namespace SM.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = nameof(ERole.Administrator))]
     [Route("[controller]")]
     public class DeliveryPersonController : Controller
     {

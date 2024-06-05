@@ -77,9 +77,12 @@ namespace SM.Web.Controllers
                 return View(login);
             }
         }
+        [AllowAnonymous]
         [HttpGet("Create")]
         public IActionResult Create()
         {
+            _signInManager.SignOutAsync();
+
             var typeCNH = Enum.GetValues(typeof(ETypeCNH));
             List<SelectListItem> _typeCNH = EnumExtensios.GetDescriptionEnum(typeCNH);
             ViewBag.TypeCNH = _typeCNH;
