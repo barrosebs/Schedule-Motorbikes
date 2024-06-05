@@ -6,7 +6,7 @@ namespace SM.Domain.Model
 {
     public class DeliveryPersonVM
     {
-        public Guid Id { get; set; } = new Guid();
+        public string? Id { get; set; }
         [Display(Name ="Nome Completo")]
         public required string FullName { get; set; }
         [Display(Name ="Email")]

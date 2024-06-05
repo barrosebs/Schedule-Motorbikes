@@ -19,7 +19,7 @@ namespace SM.Web.Controllers
     public class AllocationController : Controller
     {
         private readonly IMapper _mapper;
-        private readonly IServiceBase<MotorcycleModel> _motorcycleService;
+        private readonly IMotorcycleService _motorcycleService;
         private readonly IAllocationService _allocationService;
         private readonly IDeliveryPersonService _deliveryPersonService;
         private readonly IPlanService _planService;
@@ -29,7 +29,7 @@ namespace SM.Web.Controllers
        public AllocationController(
                                         IAllocationService allocationService,
                                         IMapper mapper,
-                                        IServiceBase<MotorcycleModel> motorcycleService,
+                                        IMotorcycleService motorcycleService,
                                         IPlanService planService,
                                         IHttpContextAccessor httpContextAccessor,
                                         UserManager<UserModel> userManager,
@@ -84,7 +84,7 @@ namespace SM.Web.Controllers
                     string endDate = modelView.EndDateToAllocation.Ticks.ToString();
                     if (startDate != endDate)
                     {
-                        this.ShowMessage($"ERRO: Data prevista conforme o plano escolhido: {modelView.StartDateToAllocation.AddDays(planModel.LimitDayPlan + 1).ToString("D")}", true);
+                        this.ShowMessage($"ERRO: Data prevista para entrega conforme o plano escolhido: {modelView.StartDateToAllocation.AddDays(planModel.LimitDayPlan + 1).ToString("dd/MM/yy")}", true);
                         return View();
                     }
                     modelView.DeliveryPerson = deliveryPerson;

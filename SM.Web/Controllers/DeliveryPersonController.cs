@@ -11,6 +11,7 @@ using SM.Domain.Models;
 using SM.Web.Helpers;
 using System.IO.Abstractions;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace SM.Web.Controllers
 {
@@ -58,11 +59,6 @@ namespace SM.Web.Controllers
                     List<SelectListItem> _typeCNH = EnumExtensios.GetDescriptionEnum(typeCNH);
                     ViewBag.TypeCNH = _typeCNH;
 
-                    IFormFile file = viewModel.ImageCNH;
-                    string extension = Path.GetExtension(file.FileName);
-                    if (extension != ".png" || extension == ".bmp")
-                        throw new ApplicationException("Arquivo não é válido!");
-
                     var Claims = _httpContextAccessor.HttpContext?.User;
                     var userId = _userManager.GetUserId(Claims);
                     DeliveryPersonModel model = _mapper.Map<DeliveryPersonModel>(viewModel);
@@ -101,11 +97,7 @@ namespace SM.Web.Controllers
                 return View();
             }
         }
-        /// <summary>
-        /// Por padrão, o protocolo HTTP esta usando o method POST e GET, com isso não pude fazer uso de outros verbos como PUT e DELETE.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+
         [HttpGet("Delete/{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
@@ -141,10 +133,11 @@ namespace SM.Web.Controllers
         }
         [Authorize(Roles = nameof(ERole.DeliveryPerson))]
         [HttpGet("Update/{email}")]
-        public async Task<IActionResult> UpdateCNH(string email)
+        public async Task<IActionResult> Update(string email)
         {
             try
             {
+
                 DeliveryPersonModel model = await _deliveryPerson.GetDeliveryPersonByEmail(email);
                 if (model != null)
                 {
@@ -169,25 +162,29 @@ namespace SM.Web.Controllers
         }
         [Authorize(Roles = nameof(ERole.DeliveryPerson))]
         [HttpPost("Update/{id}")]
-        public async Task<IActionResult> UpdateCNH([FromForm] DeliveryPersonVM viewModel)
+        public async Task<IActionResult> Update([FromForm] DeliveryPersonVM viewModel)
         {
             try
             {
-
-                DeliveryPersonModel model = await _deliveryPerson.GetByIdAsync(viewModel.Id);
+                Guid viewModelId = Guid.Parse(viewModel.Id);
+                
+                DeliveryPersonModel model = await _deliveryPerson.GetByIdAsync(viewModelId);
                 var Claims = _httpContextAccessor.HttpContext?.User;
                 var userId = _userManager.GetUserId(Claims);
-                model.UrlImageCNH = ToolsHelpers.UploadFile(viewModel.ImageCNH, viewModel.NumberCNH);
+                var typeCNH = Enum.GetValues(typeof(ETypeCNH));
+                List<SelectListItem> _typeCNH = EnumExtensios.GetDescriptionEnum(typeCNH);
+                ViewBag.TypeCNH = _typeCNH;
+                model.UrlImageCNH = ToolsHelpers.UploadFile(viewModel.ImageCNH, viewModel.NumberCNH).ToString();
                 model.UserId = int.Parse(userId);
                 await _deliveryPerson.UpdateAsync(model);
 
-                this.ShowMessage("CNH Atualizada.", false);
+                this.ShowMessage("CNH atualizada com sucesso!", false);
                 return RedirectToAction("Logged","Home");
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                this.ShowMessage(ex.Message, true);
+                return RedirectToAction("Logged", "Home");
             }
 
 

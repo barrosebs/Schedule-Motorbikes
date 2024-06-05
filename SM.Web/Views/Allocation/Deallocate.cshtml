@@ -44,8 +44,8 @@
             </div>
             <div class="mt-3">
                 <a asp-action="Logged" asp-controller="Home" class="btn btn-outline-secondary">Cancelar</a>
-                <button class="btn btn-outline-primary" type="submit">Fechar Entrega</button>
-                <button asp-action="CheckAmountToPay" type="submit" class="btn btn-warning">Consulta valor de entrega</button>
+                <button class="btn btn-outline-primary" type="submit">Finalizar Alocação</button>
+                <button asp-action="CheckAmountToPay" type="submit" class="btn btn-warning">Consulta valor de alocação</button>
             </div>
             {
                 if (@Model.Sum > 0)
