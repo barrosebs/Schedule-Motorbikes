@@ -4,7 +4,8 @@ gerar imagem no docker:
 	- Postgress (User Id=postgres;Password=SMtest;Database=DBScheduleMotorbikes)
 	- RabbitMQ (login e senha: admin e 123Aa@)
 	
-Após gerar as imagens,será necessário rodar o commando de migration com visual studio
+Após gerar as imagens,será necessário rodar o commando de migration com visual studio, acessando Tools>> Nuget Packege Manager >>  Packege Manager Console.
+No console digite os seguintes comandos:
 - Add-migration initial
 - update-database
 Com isso vai gerar as tabelas
