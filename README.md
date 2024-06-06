@@ -2,7 +2,7 @@
 Passos para rodar o projeto
 gerar imagem no docker:
 	- Postgress (User Id=postgres;Password=SMtest;Database=DBScheduleMotorbikes)
-	- RabbitMQ (login e senha: admin e 123Aa@)
+	- RabbitMQ (login e senha: admin e 123Aa@) Pasta Rabbit existe um docker compose
 	
 Após gerar as imagens,será necessário rodar o commando de migration com visual studio, acessando Tools>> Nuget Packege Manager >>  Packege Manager Console.
 No console digite os seguintes comandos:
