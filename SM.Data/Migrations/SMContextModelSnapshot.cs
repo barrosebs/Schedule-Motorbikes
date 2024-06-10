@@ -274,7 +274,8 @@ namespace SM.Data.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<bool>("IsDelivered")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("isdelivered");
 
                     b.Property<string>("LicensePlate")
                         .IsRequired()

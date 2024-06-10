@@ -15,6 +15,7 @@ namespace SM.Domain.Model
         public required string Model { get; set; }
         public DateTime? DateDelivery { get; set; }
         public Guid? DeliveryPersonId { get; set; }
+        [Column(name: "isdelivered")]
         public bool IsDelivered { get; set; } = false;
         public override string ToString()
         {
